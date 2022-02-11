@@ -7,10 +7,10 @@ A final yaer project of using deep learning CNN models for predicting regarding 
 Both dataset share the same attributes:  
 **Images number**: 86880  
 
-## flower400
+### flower400
 Dataset that contains 400 types of flowers occur in Hong Kong, without group by genus, contains 400 types of flowers  
 
-## flower258
+### flower258
 Dataset that contains 258 types of flowers occur in Hong Kong, group by genus.  
 
 # Training params
@@ -41,6 +41,9 @@ Dataset that contains 258 types of flowers occur in Hong Kong, group by genus.
 | 18    | flower400     | max scale + cutMix     | Official effNetv2b1          | 240, \[0,255\] | 0        | 7363       | \-354 | 7009         | 9183         |
 | 19    | flower400     | none                   | Official effNetb0            | 224, \[0,255\] | 0        | 7417       | \-328 | 7089         | 8604         |
 | 19 EX | flower400 raw | none                   | Official effNetb0            | 224, \[0,255\] | 0        | 7318       | \-223 | 7095         |              |
-| 20    | flower400     | RandAug cont' 19 model | Official effNetb0            | 224, \[0,255\] | 0        | 7445       | \-390 | 7055         | 8482         |
+| 20    | flower400     | RandAug cont 19 model  | Official effNetb0            | 224, \[0,255\] | 0        | 7445       | \-390 | 7055         | 8482         |
 | 21    | flower400     | max scale + RandAug    | Official effNetv2b1          | 240, \[0,255\] | 0        | 7417       | \-111 | 7306         | 9330         |
 | 22    | flower400     | max scale + RandAug    | 13,16,21 stacking            | 300, \[0,255\] | 0        | 7726       | +5    | 7731         | 9475         |
+
+# Special Thanks
+[Hong Kong Herbarium](https://herbarium.gov.hk/en/about-us/news/whats-new/index-id-5.html)
