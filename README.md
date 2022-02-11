@@ -8,10 +8,12 @@ Both dataset share the same attributes:
 **Images number**: 86880  
 
 ### flower400
-Dataset that contains 400 types of flowers occur in Hong Kong.
-
+Dataset that contains 400 types of flowers occur in Hong Kong.    
+Url: https://www.kaggle.com/r48n34/flower400   
+ 
 ### flower258
-Dataset that contains 258 types of flowers occur in Hong Kong, group by genus.  
+Dataset that contains 258 types of flowers occur in Hong Kong, group by genus.   
+Url: In progress...    
 
 # Training params
 **Model choosing**: Tensorflow 2.8 EfficientNetV2 / EfficientNet / MobienetV3 series    
