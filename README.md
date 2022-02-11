@@ -1,13 +1,32 @@
 # Leafers
+A final yaer project of using deep learning CNN models for predicting regarding Hong Kong plants images.
 
 # README.md on progress
+
+# Dataset
+Both dataset share the same attributes:  
+**Images number**: 86880  
+
+## flower400
+Dataset that contains 400 types of flowers occur in Hong Kong, without group by genus, contains 400 types of flowers  
+
+## flower258
+Dataset that contains 258 types of flowers occur in Hong Kong, group by genus.  
+
+# Training params
+**Model choosing**: Tensorflow 2.8 EfficientNetV2 / EfficientNet / MobienetV3 series    
+**Data spliting**: 80% Training & 20% Validations    
+
+**Max scale mtehod**: Scale up all classes that below a number of the max images classes  
+**Max scale Flower400**: Flower400: 276550 Training & 17369 Validations    
+**Max scale Flower258**: Flower400: 504598 Training & 17369 Validations    
 
 # Training result
 | Code  | dataset       | Aug                    | Method                       | scale          | data add | Train Top1 | diff  | Predict Top1 | Predict Top5 |
 | ----- | ------------- | ---------------------- | ---------------------------- | -------------- | -------- | ---------- | ----- | ------------ | ------------ |
 | 6     | flower400     | max scale              | effNetv1b0                   | 224, \[-1,1\]  | 1        | 7061       |       |              |              |
 | 7     | flower400     | max scale              | effNetv1b1                   | 240, \[-1,1\]  | 1        | 7019       |       |              |              |
-| 8     | flower400     | max scale + cut max    | effNetv1b1                   | 240, \[-1,1\]  | 1        | 6916       |       |              |              |
+| 8     | flower400     | max scale + cutMix     | effNetv1b1                   | 240, \[-1,1\]  | 1        | 6916       |       |              |              |
 | 9     | flower258     | max scale              | effNetv1b1                   | 240, \[-1,1\]  | 0        | 8414       | \-574 | 7840         | 9300         |
 | 10    | flower258     | max scale + RandAug    | Official effNetv2b1          | 240, \[0,255\] | 0        | 8436       | \-96  | 8340         | 9495         |
 | 11    | flower258     | max scale + RandAug    | MobienetV3                   | 224, \[0,255\] | 0        | 8073       | \-173 | 7900         | 9339         |
@@ -24,4 +43,4 @@
 | 19 EX | flower400 raw | none                   | Official effNetb0            | 224, \[0,255\] | 0        | 7318       | \-223 | 7095         |              |
 | 20    | flower400     | RandAug cont' 19 model | Official effNetb0            | 224, \[0,255\] | 0        | 7445       | \-390 | 7055         | 8482         |
 | 21    | flower400     | max scale + RandAug    | Official effNetv2b1          | 240, \[0,255\] | 0        | 7417       | \-111 | 7306         | 9330         |
-| 22    | flower400     | max scale + RandAug    | 13,16, 21 stacking           | 300, \[0,255\] | 0        | 7726       | 5     | 7731         | 9475         |
+| 22    | flower400     | max scale + RandAug    | 13,16,21 stacking            | 300, \[0,255\] | 0        | 7726       | +5    | 7731         | 9475         |
