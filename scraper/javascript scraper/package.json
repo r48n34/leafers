@@ -1,0 +1,18 @@
+{
+  "name": "webscraper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "csv-parser": "^3.0.0",
+    "image-downloader": "^4.0.3",
+    "images-scraper": "^6.4.0",
+    "papaparse": "^5.3.1",
+    "semaphore": "^1.1.0"
+  }
+}
