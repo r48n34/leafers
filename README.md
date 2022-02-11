@@ -1,5 +1,5 @@
 # Leafers
-A final yaer project of using deep learning CNN models for predicting regarding Hong Kong plants images.
+A final yaer project of using deep learning CNN models for predicting Hong Kong plants images.
 
 # README.md on progress
 
@@ -8,7 +8,7 @@ Both dataset share the same attributes:
 **Images number**: 86880  
 
 ### flower400
-Dataset that contains 400 types of flowers occur in Hong Kong, without group by genus, contains 400 types of flowers  
+Dataset that contains 400 types of flowers occur in Hong Kong.
 
 ### flower258
 Dataset that contains 258 types of flowers occur in Hong Kong, group by genus.  
@@ -24,15 +24,15 @@ Dataset that contains 258 types of flowers occur in Hong Kong, group by genus.
 # Training result
 | Code  | dataset       | Aug                    | Method                       | scale          | data add | Train Top1 | diff  | Predict Top1 | Predict Top5 |
 | ----- | ------------- | ---------------------- | ---------------------------- | -------------- | -------- | ---------- | ----- | ------------ | ------------ |
-| 6     | flower400     | max scale              | effNetv1b0                   | 224, \[-1,1\]  | 1        | 7061       |       |              |              |
-| 7     | flower400     | max scale              | effNetv1b1                   | 240, \[-1,1\]  | 1        | 7019       |       |              |              |
+| 6     | flower400     | max scale + Nornal Aug | effNetv1b0                   | 224, \[-1,1\]  | 1        | 7061       |       |              |              |
+| 7     | flower400     | max scale + Nornal Aug | effNetv1b1                   | 240, \[-1,1\]  | 1        | 7019       |       |              |              |
 | 8     | flower400     | max scale + cutMix     | effNetv1b1                   | 240, \[-1,1\]  | 1        | 6916       |       |              |              |
-| 9     | flower258     | max scale              | effNetv1b1                   | 240, \[-1,1\]  | 0        | 8414       | \-574 | 7840         | 9300         |
+| 9     | flower258     | max scale + Nornal Aug | effNetv1b1                   | 240, \[-1,1\]  | 0        | 8414       | \-574 | 7840         | 9300         |
 | 10    | flower258     | max scale + RandAug    | Official effNetv2b1          | 240, \[0,255\] | 0        | 8436       | \-96  | 8340         | 9495         |
 | 11    | flower258     | max scale + RandAug    | MobienetV3                   | 224, \[0,255\] | 0        | 8073       | \-173 | 7900         | 9339         |
 | ex    | flower258     |                        | 9,10,11 Sum output           |                |          |            | N/A   | 7963         | 9383         |
 | ex    | flower258     |                        | 9,10,11 Voting               |                |          |            | N/A   | 7835         | N/A          |
-| 12    | flower258     | max scale              | effNetv1b3                   | 300, \[-1,1\]  | 0        | 8403       | \-637 | 7766         | 9273         |
+| 12    | flower258     | max scale + Nornal Aug | effNetv1b3                   | 300, \[-1,1\]  | 0        | 8403       | \-637 | 7766         | 9273         |
 | 13    | flower400     | max scale + RandAug    | Official effNetv2b3          | 300, \[0,255\] | 0        | 7323       | \-100 | 7223         | 9279         |
 | 14    | flower258     | max scale + RandAug    | Official effNetvb2           | 260, \[0,255\] | 0        | 8313       | \-175 | 8138         | 9442         |
 | 15    | flower258     | max scale + RandAug    | Official effNetvb0           | 224, \[0,255\] | 0        | 8752       | \-90  | 8662         | 9583         |
