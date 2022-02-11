@@ -13,7 +13,7 @@ Url: https://www.kaggle.com/r48n34/flower400
  
 ### flower258
 Dataset that contains 258 types of flowers occur in Hong Kong, group by genus.   
-Url: In progress...    
+Url: https://www.kaggle.com/r48n34/flower258  
 
 # Training params
 **Model choosing**: Tensorflow 2.8 EfficientNetV2 / EfficientNet / MobienetV3 series    
