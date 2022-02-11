@@ -1,0 +1,82 @@
+2022-02-10 03:02 WARNING Callback method `on_train_batch_end` is slow compared to the batch time (batch time: 0.2614s vs `on_train_batch_end` time: 0.5044s). Check your callbacks.
+2022-02-10 03:10 INFO End epoch 1 of training:
+2022-02-10 03:10 INFO Loss: 4.374081611633301 
+2022-02-10 03:10 INFO accuracy: 0.1970464587211609 
+2022-02-10 03:10 INFO val_loss: 2.4618101119995117 
+2022-02-10 03:10 INFO val_accuracy: 0.45938166975975037 
+2022-02-10 03:10 INFO ---------------------------------------
+2022-02-10 03:18 INFO End epoch 2 of training:
+2022-02-10 03:18 INFO Loss: 2.1173110008239746 
+2022-02-10 03:18 INFO accuracy: 0.5120905041694641 
+2022-02-10 03:18 INFO val_loss: 1.6343638896942139 
+2022-02-10 03:18 INFO val_accuracy: 0.5999769568443298 
+2022-02-10 03:18 INFO ---------------------------------------
+2022-02-10 03:26 INFO End epoch 3 of training:
+2022-02-10 03:26 INFO Loss: 1.504184603691101 
+2022-02-10 03:26 INFO accuracy: 0.6224163770675659 
+2022-02-10 03:26 INFO val_loss: 1.3638625144958496 
+2022-02-10 03:26 INFO val_accuracy: 0.6501237750053406 
+2022-02-10 03:26 INFO ---------------------------------------
+2022-02-10 03:33 INFO End epoch 4 of training:
+2022-02-10 03:33 INFO Loss: 1.2214165925979614 
+2022-02-10 03:33 INFO accuracy: 0.6808250546455383 
+2022-02-10 03:33 INFO val_loss: 1.2257577180862427 
+2022-02-10 03:33 INFO val_accuracy: 0.6751108169555664 
+2022-02-10 03:33 INFO ---------------------------------------
+2022-02-10 03:34 WARNING Callback method `on_train_batch_end` is slow compared to the batch time (batch time: 0.2763s vs `on_train_batch_end` time: 0.6071s). Check your callbacks.
+2022-02-10 03:42 INFO End epoch 1 of training:
+2022-02-10 03:42 INFO Loss: 1.0450592041015625 
+2022-02-10 03:42 INFO accuracy: 0.7189100980758667 
+2022-02-10 03:42 INFO val_loss: 1.1387561559677124 
+2022-02-10 03:42 INFO val_accuracy: 0.694455623626709 
+2022-02-10 03:42 INFO ---------------------------------------
+2022-02-10 03:50 INFO End epoch 2 of training:
+2022-02-10 03:50 INFO Loss: 0.8852171301841736 
+2022-02-10 03:50 INFO accuracy: 0.7535408139228821 
+2022-02-10 03:50 INFO val_loss: 1.0850549936294556 
+2022-02-10 03:50 INFO val_accuracy: 0.7053371071815491 
+2022-02-10 03:50 INFO ---------------------------------------
+2022-02-10 03:57 INFO End epoch 3 of training:
+2022-02-10 03:57 INFO Loss: 0.7592813372612 
+2022-02-10 03:57 INFO accuracy: 0.7849617004394531 
+2022-02-10 03:57 INFO val_loss: 1.0486851930618286 
+2022-02-10 03:57 INFO val_accuracy: 0.7153549194335938 
+2022-02-10 03:57 INFO ---------------------------------------
+2022-02-10 04:05 INFO End epoch 4 of training:
+2022-02-10 04:05 INFO Loss: 0.6653209328651428 
+2022-02-10 04:05 INFO accuracy: 0.8085813522338867 
+2022-02-10 04:05 INFO val_loss: 1.0215609073638916 
+2022-02-10 04:05 INFO val_accuracy: 0.7235304117202759 
+2022-02-10 04:05 INFO ---------------------------------------
+2022-02-10 04:06 WARNING Callback method `on_train_batch_end` is slow compared to the batch time (batch time: 0.2812s vs `on_train_batch_end` time: 0.6191s). Check your callbacks.
+2022-02-10 04:14 INFO End epoch 1 of training:
+2022-02-10 04:14 INFO Loss: 0.601377010345459 
+2022-02-10 04:14 INFO accuracy: 0.8235073685646057 
+2022-02-10 04:14 INFO val_loss: 1.0256766080856323 
+2022-02-10 04:14 INFO val_accuracy: 0.7225516438484192 
+2022-02-10 04:14 INFO ---------------------------------------
+2022-02-10 04:21 INFO End epoch 2 of training:
+2022-02-10 04:21 INFO Loss: 0.5261062383651733 
+2022-02-10 04:21 INFO accuracy: 0.8432120680809021 
+2022-02-10 04:21 INFO val_loss: 1.0197404623031616 
+2022-02-10 04:21 INFO val_accuracy: 0.7258909344673157 
+2022-02-10 04:21 INFO ---------------------------------------
+2022-02-10 04:29 INFO End epoch 3 of training:
+2022-02-10 04:29 INFO Loss: 0.4587664306163788 
+2022-02-10 04:29 INFO accuracy: 0.8611319065093994 
+2022-02-10 04:29 INFO val_loss: 1.0234521627426147 
+2022-02-10 04:29 INFO val_accuracy: 0.7302089929580688 
+2022-02-10 04:29 INFO ---------------------------------------
+2022-02-10 04:37 INFO End epoch 4 of training:
+2022-02-10 04:37 INFO Loss: 0.4058140814304352 
+2022-02-10 04:37 INFO accuracy: 0.8776124119758606 
+2022-02-10 04:37 INFO val_loss: 1.0237890481948853 
+2022-02-10 04:37 INFO val_accuracy: 0.7326846718788147 
+2022-02-10 04:37 INFO ---------------------------------------
+2022-02-10 04:50 WARNING Callback method `on_train_batch_end` is slow compared to the batch time (batch time: 0.2574s vs `on_train_batch_end` time: 0.6204s). Check your callbacks.
+2022-02-10 04:57 INFO End epoch 1 of training:
+2022-02-10 04:57 INFO Loss: 0.3755336403846741 
+2022-02-10 04:57 INFO accuracy: 0.8854712247848511 
+2022-02-10 04:57 INFO val_loss: 1.0494184494018555 
+2022-02-10 04:57 INFO val_accuracy: 0.7325695157051086 
+2022-02-10 04:57 INFO ---------------------------------------
