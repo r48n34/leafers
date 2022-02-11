@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plants predictions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+
+    <div class="container">
+        
+        <h1>Plants predictions demo:</h1>
+        <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
+        <img id="img" style="width:600px; height:auto; max-width: 600px; max-width: 600px;" />
+
+        <br/><br/>
+
+        <div id="loadingDisplay"></div>
+
+        <div id="predictedLabel">
+            <h3> Predicted label: </h3>
+            <h3> Confidence: </h3>
+        </div>
+
+        <br/><br/>
+
+        <div id="predictedLabelTopFive"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"> </script>
+
+    <script>
+    /*
+        General flow:
+        1. Download your model.h5 to your pc
+        2. Download python tensorflowjs
+        -  pip install tensorflowjs (since we are using tensorflowjs_converter in local environment)
+        3. Using tensorflowjs_converter in your terminal
+        -  tensorflowjs_converter --input_format=keras --output_format=tfjs_graph_model <input_path> <output_path>
+        4. At that point, you will have a folder holding the model.json and other weights files
+        5. Open a repository in github (NOT gitlab, is github), git push your folder to that repository
+        6. Your jsdelivr link should be like this
+        -  https://cdn.jsdelivr.net/gh/<your username>/<your respo>/<your model folder>/model.json
+        7. Change the modelUrlPath, imgSize, labelMyModel by your own data
+        8. Done
+    
+    */
+
+    const img = document.getElementById('img'); // img box
+    const avatar = document.getElementById("avatar"); // input images elements
+
+    const loadingDisplay = document.getElementById("loadingDisplay"); // display spinner
+    const predictedLabel = document.getElementById("predictedLabel"); // display predicted text
+    const predictedLabelTopFive = document.getElementById("predictedLabelTopFive"); // display predicted text
+
+    let myModel;
+
+    ////////////////////////////////////////////////////////
+
+    // Depends on your model scale:
+    // [-1, 1]: divNum 127.5 subNum 1
+    // [0, 1]: divNum 255 subNum 0
+    // [255, 0]: divNum 1 subNum 0
+    //   const divNum = 127.5
+    //   const subNum = 1
+
+    const imgSize = 300
+    const modelUrlPath = 'https://cdn.jsdelivr.net/gh/r48n34/leafers/flower400Code022model/model.json'
+
+    const labelMyModel = ['Abelia chinensis', 'Abelia × grandiflora', 'Abelmoschus esculentus', 'Abutilon indicum', 'Abutilon pictum', 'Acacia confusa', 'Acacia dealbata', 'Acacia farnesiana', 'Acacia podalyriifolia', 'Acanthus ilicifolius', 'Achimenes grandiflora', 'Adenium obesum', 'Adenosma glutinosum', 'Adina pilulifera', 'Aeginetia indica', 'Ageratum conyzoides', 'Ageratum houstonianum', 'Agrimonia pilosa', 'Ajuga reptans var. purpurea', 'Alcea rosea', 'Allamanda cathartica', 'Allamanda schottii', 'Anagallis arvensis', 'Anisopappus chinensis', 'Anodendron affine', 'Antigonon leptopus', 'Arachis duranensis', 'Argemone mexicana', 'Argyranthemum frutescens', 'Argyreia mollis', 'Argyreia nervosa', 'Aristolochia westlandii', 'Artabotrys hexapetalus', 'Artabotrys hongkongensis', 'Asarum caudigerum', 'Asclepias curassavica', 'Aster ageratoides', 'Aster ageratoides var. scaberulus', 'Aster novi-belgii', 'Astragalus sinicus', 'Asystasia gangetica', 'Asystasia micrantha', 'Bacopa monnieri', 'Barleria cristata', 'Barleria lupulina', 'Bauhinia acuminata', 'Bauhinia corymbosa', 'Bauhinia galpinii', 'Bauhinia glauca', 'Bauhinia purpurea', 'Bauhinia tomentosa', 'Bauhinia variegata', 'Bauhinia variegata var. candida', 'Bauhinia × blakeana', 'Beaumontia grandiflora', 'Begonia × tuberhybrida', 'Bidens alba', 'Bidens biternata', 'Bidens pilosa', 'Boea hygrometrica', 'Boeica guileana', 'Bombax ceiba', 'Borago officinalis', 'Bougainvillea glabra', 'Brunfelsia calycina', 'Brunfelsia macrophylla', 'Buddleja davidii', 'Buddleja lindleyana', 'Caesalpinia crista', 'Caesalpinia decapetala', 'Calendula officinalis', 'Calliandra haematocephala', 'Callicarpa cathayana', 'Callicarpa formosana', 'Callicarpa longibracteata', 'Callistephus chinensis', 'Calystegia hederacea', 'Camellia crapnelliana', 'Camellia granthamiana', 'Camellia hongkongensis', 'Camellia japonica', 'Camellia reticulata', 'Camellia sasanqua', 'Campsis grandiflora', 'Cananga odorata', 'Canavalia lineata', 'Canavalia maritima', 'Caryopteris incana', 'Cassia javanica', 'Catharanthus roseus', 'Celosia argentea var. cristata', 'Centaurea cyanus', 'Centrosema pubescens', 'Cercis chinensis', 'Chirita sinensis', 'Chorisis repens', 'Chrysanthemum carinatum', 'Chrysanthemum segetum', 'Cirsium hupehense', 'Cirsium japonicum', 'Cirsium lineare', 'Cleome rutidosperma', 'Clerodendranthus spicatus', 'Clerodendrum chinense', 'Clerodendrum japonicum', 'Clerodendrum myricoides', 'Clerodendrum speciosissimum', 'Clerodendrum splendens', 'Clerodendrum thomsoniae', 'Clitoria hanceana', 'Clitoria ternatea', 'Clytostoma callistegioides', 'Cobaea scandens', 'Colchicum montanum', 'Coreopsis lanceolata', 'Coreopsis tinctoria', 'Corydalis balansae', 'Cosmos bipinnatus', 'Crotalaria albida', 'Crotalaria assamica', 'Crotalaria calycina', 'Crotalaria retusa', 'Cryptostegia grandiflora', 'Cuphea hyssopifolia', 'Cyclamen persicum', 'Dahlia pinnata', 'Daphne championii', 'Datura metel', 'Datura stramonium', 'Dendrobenthamia hongkongensis', 'Desmodium triflorum', 'Desmos chinensis', 'Dianthus barbatus', 'Dianthus caryophyllus', 'Dianthus chinensis', 'Dichroa febrifuga', 'Dillenia alata', 'Dipteracanthus repens', 'Dombeya wallichii', 'Duhaldea cappa', 'Duranta erecta', 'Echeveria glauca', 'Elsholtzia argyi', 'Enkianthus quinqueflorus', 'Epiphyllum oxypetalum', 'Erigeron karvinskianus', 'Erodium cicutarium', 'Erythrina caffra', 'Erythrina corallodendron', 'Erythrina lysistemon', 'Eupatorium japonicum', 'Euphorbia milii', 'Euphorbia pulcherrima', 'Evolvulus alsinoides', 'Farfugium japonicum', 'Gaillardia aristata', 'Gaillardia pulchella', 'Gardenia jasminoides', 'Gardenia jasminoides var. fortuniana', 'Gardenia stenophylla', 'Gardenia thunbergia', 'Gelsemium elegans', 'Gentiana loureiroi', 'Geophila herbacea', 'Gerbera jamesonii', 'Glechoma longituba', 'Gmelina hystrix', 'Gnaphalium hypoleucum', 'Gomphrena Celosioides', 'Gomphrena globosa', 'Helianthus annuus', 'Heliotropium indicum', 'Hemisteptia lyrata', 'Hewittia malabarica', 'Hibiscus hamabo', 'Hibiscus mutabilis', 'Hibiscus schizopetalus', 'Hibiscus syriacus', 'Hibiscus tiliaceus', 'Holmskioldia sanguinea', 'Houttuynia cordata', 'Hoya carnosa', 'Hydrangea macrophylla', 'Hylocereus undatus', 'Hypericum japonicum', 'Illicium angustisepalum', 'Impatiens balsamina', 'Impatiens chinensis', 'Ipomoea cairica', 'Ipomoea carnea subsp. fistulosa', 'Ipomoea coccinea', 'Ipomoea horsfalliae', 'Ipomoea imperati', 'Ipomoea pes-caprae', 'Ipomoea purpurea', 'Ipomoea quamoclit', 'Ixeridium chinense', 'Ixeridium gracile', 'Ixeris japonica', 'Ixora coccinea', 'Ixora coccinea f. lutea', 'Jacobinia velutina', 'Jasminanthes mucronata', 'Jasminum mesnyi', 'Jasminum multiflorum', 'Jasminum nervosum', 'Jasminum sambac', 'Jasminum sinense', 'Kopsia arborea', 'Lagascea mollis', 'Lagerstroemia speciosa', 'Lampranthus spectabilis', 'Lantana camara', 'Lantana montevidensis', 'Lathyrus odoratus', 'Lavandula angustifolia', 'Lespedeza formosa', 'Ligularia japonica', 'Ligustrum sinense', 'Limnophila chinensis', 'Lindernia antipoda', 'Lindernia ciliata', 'Lindernia rotundifolia', 'Lindernia ruellioides', 'Lirianthe championii', 'Lirianthe coco', 'Lobelia chinensis', 'Lobularia maritima', 'Lonicera confusa', 'Lonicera japonica', 'Lonicera longiflora', 'Lonicera macrantha', 'Ludwigia decurrens', 'Ludwigia octovalvis', 'Ludwigia × taiwanensis', 'Lumnitzera racemosa', 'Lychnis fulgens', 'Lysidice rhodostegia', 'Lysimachia alpestris', 'Lysimachia candida', 'Magnolia grandiflora', 'Malva cathayensis', 'Malvastrum coromandelianum', 'Mecardonia procumbens', 'Medicago lupulina', 'Medicago sativa', 'Melastoma dodecandrum', 'Melastoma intermedium', 'Melastoma malabathricum', 'Melastoma sanguineum', 'Melodinus fusiformis', 'Merremia hederacea', 'Michelia figo', 'Michelia maudiae', 'Michelia × alba', 'Mimosa pudica', 'Mirabilis jalapa', 'Mussaenda erosa', 'Mussaenda erythrophylla', 'Mussaenda kwangtungensis', 'Mussaenda pubescens', 'Myosoton aquaticum', 'Narcissus pseudonarcissus', 'Narcissus tazetta var. chinensis', 'Nelumbo nucifera', 'Nepenthes mirabilis', 'Nicandra physalodes', 'Nymphaea nouchali', 'Nymphaea tetragona', 'Nymphoides cristata', 'Nymphoides peltata', 'Oenothera drummondii', 'Ophiorrhiza cantoniensis', 'Ophiorrhiza japonica', 'Osbeckia chinensis', 'Oxalis corniculata', 'Pachystachys lutea', 'Pandorea ricasoliana', 'Papaver rhoeas', 'Paraixeris denticulata', 'Parkinsonia aculeata', 'Passiflora suberosa', 'Pavetta hongkongensis', 'Pelargonium graveolens', 'Peltophorum pterocarpum', 'Pentapetes phoenicea', 'Pentas lanceolata', 'Pericallis × hybrida', 'Persicaria capitata', 'Petrea volubilis', 'Phalaenopsis amabilis', 'Platycodon grandiflorus', 'Pluchea indica', 'Plumbago indica', 'Plumbago zeylanica', 'Plumeria obtusa', 'Plumeria rubra', 'Potentilla supina var. ternata', 'Prunus campanulata', 'Pseudocalymma alliaceum', 'Pterocypsela laciniata', 'Pueraria lobata var. montana', 'Ranunculus sceleratus', 'Rhaphiolepis indica', 'Rhinacanthus nasutus', 'Rhododendron championiae', 'Rhododendron farrerae', 'Rhododendron hongkongense', 'Rhododendron moulmainense', 'Rhododendron mucronatum', 'Rhododendron pulchrum', 'Rhododendron pulchrum var. phoeniceum', 'Rhododendron simiarum', 'Rhododendron simsii', 'Rhodomyrtus tomentosa', 'Richardia scabra', 'Rondeletia odorata', 'Rosa cymosa', 'Rosa henryi', 'Rosa kwangtungensis', 'Rosa laevigata', 'Rosa luciae', 'Rudbeckia hirta', 'Ruellia simplex', 'Russelia sarmentosa', 'Ruta graveolens', 'Saintpaulia ionantha', 'Salvia farinacea', 'Salvia splendens', 'Sanvitalia procumbens', 'Saraca dives', 'Saussurea japonica', 'Scutellaria indica', 'Scutellaria tayloriana', 'Sedum alfredii', 'Senecio scandens', 'Senecio stauntonii', 'Senna sulfurea', 'Sida acuta', 'Sida cordifolia', 'Sida subcordata', 'Smithia conferta', 'Solanum wrightii', 'Solidago decurrens', 'Sonchus arvensis', 'Sonchus oleraceus', 'Spilanthes grandiflora', 'Spiraea cantoniensis', 'Spiraea chinensis', 'Spiraea thunbergii', 'Stachytarpheta jamaicensis', 'Stellaria alsine', 'Stokesia cyanea', 'Strobilanthes cusia', 'Strongylodon macrobotrys', 'Styrax odoratissimus', 'Tagetes erecta', 'Tagetes patula', 'Tagetes tenuifolia', 'Talinum triangulare', 'Taraxacum officinale', 'Tecoma capensis', 'Tecoma stans', 'Thevetia peruviana', 'Thunbergia alata', 'Thunbergia erecta', 'Thunbergia fragrans', 'Thunbergia grandiflora', 'Thunbergia laurifolia', 'Thunbergia mysorensis', 'Tithonia diversifolia', 'Torenia asiatica', 'Torenia benthamiana', 'Torenia fordii', 'Torenia fournieri', 'Toxocarpus wightianus', 'Tridax procumbens', 'Tropaeolum majus', 'Urena lobata', 'Utricularia aurea', 'Utricularia bifida', 'Utricularia sandersonii', 'Uvaria macrophylla', 'Verbena bonariensis', 'Vernonia patula', 'Veronica javanica', 'Viburnum hanceanum', 'Viola arcuata', 'Viola betonicifolia', 'Viola diffusa', 'Viola inconspicua', 'Viola odorata', 'Viola tricolor', 'Wedelia chinensis', 'Wedelia wallichii', 'Woodfordia fruticosa', 'Wrightia laevis', 'Xanthostemon chrysanthus', 'Youngia heterophylla', 'Youngia japonica']
+
+    window.onload = async () =>{
+        await tf.ENV.set('WEBGL_PACK_DEPTHWISECONV', 'false');
+        loadModel();
+    }
+
+    async function loadModel() {
+        console.log("Loading Models");
+
+        const start = new Date();
+        myModel = await tf.loadGraphModel(modelUrlPath)
+
+        console.log("Time used to init: ",(new Date() - start) / 1000, " Done");
+
+    }
+
+    // do model predictions
+    async function useModel(){
+
+        loadingDisplay.innerHTML = `
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        `
+        await timer(200);
+
+        let start = new Date();
+
+        // Read img and reshape it
+        // https://stackoverflow.com/questions/54774073/incorrect-predictions-when-using-the-keras-pre-trained-inceptionv3-xception-mode
+        // normalizing the images into the range [-1, 1] before inputting them !!
+        let imgPre = await tf.browser.fromPixels(img)
+        .resizeNearestNeighbor([imgSize, imgSize])
+        .toFloat()
+        .expandDims();   
+
+        let afterResize = new Date();
+        console.log("Img resize & rescale time", (new Date() - start) / 1000)
+        console.log(imgPre);
+
+        // predict the inupt and output softmax prob
+        const p = await myModel.predict(imgPre).data();
+
+        // Get the biggest possibility value regarding that index
+        let ind = p.indexOf(Math.max(...p));
+        console.log(p);
+        
+        console.log("MyModel predicted:", labelMyModel[ind]);
+
+        predictedLabel.innerHTML = `
+        <h3> Predicted label: ${labelMyModel[ind]} </h3>
+        <h3> Confidence: ${p[ind]} </h3>
+        `
+
+        console.log("Time used to predict: ",(new Date() - afterResize) / 1000);
+        console.log("Overall time: ",(new Date() - start) / 1000);
+        console.log("----------------------------");
+
+        loadingDisplay.innerHTML = ``;
+
+        // Extra: get top 5 predictions
+        // predict float array to int array
+
+        const topK = 5
+
+        const {values, indices} = tf.topk(p, topK);  
+
+        values.print();
+        indices.print();
+
+        const topArrPoss = Array.from( values.dataSync() ) // top K confident value
+        const topArr = Array.from( indices.dataSync() ) // top K array index
+
+        predictedLabelTopFive.innerHTML = ``
+
+        let topFiveArr = [] // array to store top 5 label and confident
+        for(let i = 0; i < topK; i ++){
+        topFiveArr.push( {label: labelMyModel[ topArr[i] ], confident: topArrPoss[i]  } );
+        predictedLabelTopFive.innerHTML += `<h3> Top${i + 1}: Label : ${ labelMyModel[ topArr[i] ] } ( Confident: ${topArrPoss[i]} )  </h3>`;
+        }
+
+        console.log(topFiveArr);
+
+    }
+
+    // load your image to display and fit into model for predictions
+    avatar.addEventListener("input", async (e) =>{
+        let f = e.currentTarget;
+        const files = f.files[0]; // get files
+
+        if (files) {
+
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(files);
+
+        fileReader.addEventListener("load", async function () {
+            
+            img.src = this.result;
+            await timer(200);
+            useModel();
+
+        });  
+
+        }
+
+    })
+
+    function timer(t){
+        return new Promise((rec) =>{
+        setTimeout(rec, t);
+        })
+    }
+
+    </script>
+
+</body>
+</html>
