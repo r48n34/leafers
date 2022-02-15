@@ -1,5 +1,5 @@
 # Leafers
-A final yaer project of using deep learning CNN models for predicting Hong Kong plants images.
+A final yaer project of using deep learning CNN models for predicting Hong Kong plants images.  
 <img src="assert/postreFirstPage.png" width="600" alt="project_logo"/>
 
 # README.md on progress
