@@ -16,6 +16,10 @@ Url: https://www.kaggle.com/r48n34/flower400
 Dataset that contains 258 types of flowers occur in Hong Kong, group by genus.   
 Url: https://www.kaggle.com/r48n34/flower258  
 
+## flower yolov5  
+Using flower400 images, selecting few of representative for labeling with boxes.  
+Url: https://www.kaggle.com/r48n34/flowers-yolov5
+
 # Training params
 
 ### Images classifications 
@@ -59,9 +63,9 @@ Url: https://www.kaggle.com/r48n34/flower258
 
 ### YoloV5 Best.pt
 
-| train/box_loss | train/obj_loss | metrics/precision | metrics/recall | metrics/mAP_0.5 | metrics/mAP_0.5:0.95 | val/box_loss | val/obj_loss |
-|----------------|----------------|-------------------|----------------|-----------------|----------------------|--------------|--------------|
-| 0.023474       | 0.023782       | 0.9516            | 0.77108        | 0.87833         | 0.63541              | 0.031121     | 0.012252     |
+| train/box_loss | train/obj_loss | precision | recall | mAP_0.5 | mAP_0.5:0.95 | val/box_loss | val/obj_loss |
+|----------------|----------------|-----------|--------|---------|--------------|--------------|--------------|
+| 0.023474       | 0.023782       | 0.9516    | 0.77108| 0.87833 | 0.63541      | 0.031121     | 0.012252     |
 
 
 # Special Thanks
