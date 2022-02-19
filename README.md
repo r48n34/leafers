@@ -40,7 +40,7 @@ Url: https://www.kaggle.com/r48n34/flowers-yolov5
 
 | Specs \ Env | Colab ENV                      | Local ENV                                |
 |-------------|--------------------------------|------------------------------------------|
-| CPU         | Intel(R) Xeon(R) CPU @ 2.30GHz | AMD Ryzen 5 5600X 6-core@3.7GHz (4.5 OC) |
+| CPU         | Intel(R) Xeon(R) CPU @ 2.30GHz | AMD Ryzen 5 5600X 6-core 3.7GHz (4.5 OC) |
 | GPU         | NVIDIA Tesla P100 16GB         | MSI GeForce RTX 3060 Ti 12GB             |
 | RAM         | 24 GB                          | 16 GB DDR4 3200                          |
 | CUDA        | 11.2                           | 11.5                                     |
@@ -97,4 +97,4 @@ Url: https://www.kaggle.com/r48n34/flowers-yolov5
 
 ### Protocol References:
 - [Smart Flower Atlas](https://plant-tw.github.io/)    
-- [Pl@ntNet](https://identify.plantnet.org/zh)    
+- [Pl@ntNet](https://identify.plantnet.org/zh)      
