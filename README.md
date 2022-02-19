@@ -16,7 +16,7 @@ Url: https://www.kaggle.com/r48n34/flower400
 Dataset that contains 258 types of flowers occur in Hong Kong, group by genus.   
 Url: https://www.kaggle.com/r48n34/flower258  
 
-## flower yolov5  
+### flower yolov5  
 Using flower400 images, selecting few of representative for labeling with boxes.  
 Url: https://www.kaggle.com/r48n34/flowers-yolov5
 
@@ -67,6 +67,23 @@ Url: https://www.kaggle.com/r48n34/flowers-yolov5
 |----------------|----------------|-----------|--------|---------|--------------|--------------|--------------|
 | 0.023474       | 0.023782       | 0.9516    | 0.77108| 0.87833 | 0.63541      | 0.031121     | 0.012252     |
 
+# Applications development
+**Website** : React ( Firebase, tfjs )    
+**Apps** : React native with expo ( tfjs )  
+**API** : Azure functions    
+**Server**: Azure Static Web Apps  
 
-# Special Thanks
-[Hong Kong Herbarium](https://herbarium.gov.hk/en/about-us/news/whats-new/index-id-5.html)
+# Deployment
+**Google play**: Coming soon    
+**Website**: https://red-ground-0a3457a10.azurestaticapps.net      
+
+# Special Thanks  
+
+### Data References: 
+- [Hong Kong Herbarium](https://herbarium.gov.hk/en/about-us/news/whats-new/index-id-5.html)  
+- [HKCWW](http://hkcww.org/hkplant/index.htm)    
+- [Produce Green HK](http://www.producegreen.org.hk/hkwildflower/main_04_01.htm)    
+
+### Protocol References:
+- [Smart Flower Atlas](https://plant-tw.github.io/)    
+- [Pl@ntNet](https://identify.plantnet.org/zh)    
