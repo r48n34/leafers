@@ -36,6 +36,17 @@ Url: https://www.kaggle.com/r48n34/flowers-yolov5
 **Model choose** : yolov5 small  
 **Data** : 1067 training & 100 validations  
 
+### Environments
+
+| Specs \ Env | Colab ENV                      | Local ENV                                |
+|-------------|--------------------------------|------------------------------------------|
+| CPU         | Intel(R) Xeon(R) CPU @ 2.30GHz | AMD Ryzen 5 5600X 6-core@3.7GHz (4.5 OC) |
+| GPU         | NVIDIA Tesla P100 16GB         | MSI GeForce RTX 3060 Ti 12GB             |
+| RAM         | 24 GB                          | 16 GB DDR4 3200                          |
+| CUDA        | 11.2                           | 11.5                                     |
+| TF version  | 2.7                            | 2.8                                      |
+
+
 # Training result
 
 ### flower258
@@ -74,8 +85,8 @@ Url: https://www.kaggle.com/r48n34/flowers-yolov5
 **Server**: Azure Static Web Apps  
 
 # Deployment
-**Google play**: Coming soon    
-**Website**: https://r48n34.me/    
+**Google play**: Review in progress  
+**Website**: [Leafers website](https://r48n34.me/)   
 
 # Special Thanks  
 
