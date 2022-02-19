@@ -75,7 +75,7 @@ Url: https://www.kaggle.com/r48n34/flowers-yolov5
 
 # Deployment
 **Google play**: Coming soon    
-**Website**: https://red-ground-0a3457a10.azurestaticapps.net      
+**Website**: https://r48n34.me/    
 
 # Special Thanks  
 
