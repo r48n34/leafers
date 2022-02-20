@@ -1,8 +1,9 @@
 # Leafers
 A final year project of using deep learning CNN models for predicting Hong Kong plants images.  
-<img src="assert/postreFirstPage.png" width="600" alt="project_logo"/>
-
-# README.md on progress
+**Website**: [Leafers website](https://r48n34.me/)   
+<a href='https://play.google.com/store/apps/details?id=leafers.apk&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="200" /></a>  
+   
+<img src="assert/postreFirstPage.png" width="600" alt="project_logo"/>    
 
 # Dataset
 Both dataset share the same attributes:  
@@ -83,10 +84,6 @@ Url: https://www.kaggle.com/r48n34/flowers-yolov5
 **Apps** : React native with expo ( tfjs )  
 **API** : Azure functions    
 **Server**: Azure Static Web Apps  
-
-# Deployment
-**Google play**: Review in progress  
-**Website**: [Leafers website](https://r48n34.me/)   
 
 # Special Thanks  
 
