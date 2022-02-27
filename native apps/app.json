@@ -29,7 +29,7 @@
       "package": "leafers.apk",
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyCCH612-fCbUYlkS3Sv0_LOs2URXS683EU"
+          "apiKey": ""
         }
       },
       "permissions": [ "CAMERA", "WRITE_EXTERNAL_STORAGE", "CAMERA_ROLL", "READ_EXTERNAL_STORAGE", "ACCESS_FINE_LOCATION" ]
