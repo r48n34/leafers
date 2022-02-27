@@ -1,0 +1,3 @@
+{
+    "feedbackServerApi" : "http://192.168.8.6:8000/feedback?modelId=1"
+}   

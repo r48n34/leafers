@@ -1,0 +1,140 @@
+{
+    "mainTitle":{
+        "en" : "Model",
+        "hk" : "模型"
+    },
+    "playBtn":{
+        "en" : "Play",
+        "hk" : "開始"
+    },
+    "detailBtn":{
+        "en" : "Detail",
+        "hk" : "詳情"
+    },
+    "predictTitle":{
+        "en" : "Recent predictions",
+        "hk" : "歷史記錄"
+    },
+    "predictNoHistory":{
+        "en" : "No History yet :(",
+        "hk" : "暫時沒有紀錄 :("
+    },
+    "homeNav":{
+        "en" : "Home",
+        "hk" : "主頁"
+    },
+    "historyNav":{
+        "en" : "HistoryDisplay",
+        "hk" : "記錄"
+    },
+    "pressSeeMoreTitle":{
+        "en" : "Model detail",
+        "hk" : "模型詳情"
+    },
+    "cameraPageCapPic":{
+        "en" : "Capture images",
+        "hk" : "拍照"
+    },
+    "cameraPageGallery":{
+        "en" : "Gallery",
+        "hk" : "圖庫"
+    },
+    "settingPageTitle":{
+        "en" : "Setting",
+        "hk" : "設定"
+    },
+    "historyPageDeleteBtn":{
+        "en" : "Delete all",
+        "hk" : "刪除全部"
+    },
+    "predictPageTitle":{
+        "en" : "Predictions",
+        "hk" : "預測"
+    },
+    "predictPageHomeBtn":{
+        "en" : "Back Home",
+        "hk" : "回到主頁"
+    },
+    "predictPageAgainBtn":{
+        "en" : "Predict again",
+        "hk" : "再次預測"
+    },
+    "predictPageLoadingTensorflow":{
+        "en" : "Loading library...",
+        "hk" : "載入中..."
+    },
+    "predictPageLoadingModel":{
+        "en" : "Loading model...",
+        "hk" : "載入模型中..."
+    },
+    "predictPageLoadingImage":{
+        "en" : "Loading image...",
+        "hk" : "載入圖片中..."
+    },
+    "predictPageLoadingPredictMsg":{
+        "en" : "Predicting...",
+        "hk" : "預測中..."
+    },
+    "predictInputLabel":{
+        "en" : "Your Images",
+        "hk" : "預測"
+    },
+    "predictResultBox":{
+        "en" : "Result",
+        "hk" : "結果"
+    },
+    "deleteCompTitle":{
+        "en" : "Delete all history",
+        "hk" : "刪除所有結果"
+    },
+    "deleteCompContent":{
+        "en" : "Are you sure to delete? This action cannot be reversed.",
+        "hk" : "你確認要刪除嗎? 刪除後的資料不能刪除後的資料不能."
+    },
+    "generalCancelText":{
+        "en" : "Cancel",
+        "hk" : "取消"
+    },
+    "generalDeleteText":{
+        "en" : "Delete",
+        "hk" : "刪除"
+    },
+    "generalConfirmText":{
+        "en" : "Confirm",
+        "hk" : "確認"
+    },
+    "settingPageDeleteHistory":{
+        "en" : "Delete History",
+        "hk" : "刪除歷史記錄"
+    },
+    "settingPageLanguage":{
+        "en" : "Language",
+        "hk" : "語言"
+    },
+    "settingPageLanguageToggle":{
+        "en" : "轉換",
+        "hk" : "Toggle"
+    },
+    "wifiConfirmTitle":{
+        "en" : "Download require",
+        "hk" : "需要下載"
+    },
+    "wifiConfirmContent":{
+        "en" : "This model needs to be download (~ 20MB). Make sure you are connected to wifi.",
+        "hk" : "此模型需要下載 (~ 20MB)，請確保你已連接 Wi-Fi."
+    },
+    "successToToggleLanguage":{
+        "en" : "Success to set languages",
+        "hk" : "成功轉換語言"
+    },
+    "gpsPageTitle":{
+        "en" : "Your loactions",
+        "hk" : "你的位置"
+    },
+    "successToDeleteBtn":{
+        "en" : "Success to delete",
+        "hk" : "成功刪除"
+    }
+    
+    
+}

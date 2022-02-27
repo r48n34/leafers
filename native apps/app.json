@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "Leafers",
+    "slug": "Leafers",
+    "version": "1.3.2",
+    "orientation": "portrait",
+    "platforms": [ "android" ],
+    "icon": "./assets/appsLogo.png",
+    "splash": {
+      "image": "./assets/mysplash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/appsLogo.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "versionCode": 3,
+      "package": "leafers.apk",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCCH612-fCbUYlkS3Sv0_LOs2URXS683EU"
+        }
+      },
+      "permissions": [ "CAMERA", "WRITE_EXTERNAL_STORAGE", "CAMERA_ROLL", "READ_EXTERNAL_STORAGE", "ACCESS_FINE_LOCATION" ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
