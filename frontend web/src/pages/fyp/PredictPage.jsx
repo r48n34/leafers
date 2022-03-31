@@ -16,12 +16,12 @@ import { addCollectionsTwoLayerNoSecDoc } from './services/firebaseUse'
 
 import modelData from './dataStorage/modelData.json'
 import full from './img/full.jpg';
-import ModelResultBox from './smallComp/ModelResultBox'
 
+import ModelResultBox from './smallComp/ModelResultBox'
 import DeleteModelBtn from './smallComp/DeleteModelBtn'
 import SaveModelBtn from './smallComp/SaveModelBtn'
 
-import BottomRightQuestion from "./smallComp/BottomRightQuestion";
+// import BottomRightQuestion from "./smallComp/BottomRightQuestion";
 
 const MySwal = withReactContent(Swal)
 let modelIndex;
@@ -201,20 +201,20 @@ function PredictPage(){
         })     
     }
 
-    function qAndAModal(){
-        MySwal.fire({
-          title: 'How to predict?',
-          html: (
-          <div>
-            <h5>1. Drag or select a images from your devices.</h5>
-            <h5>2. Wait for the result.</h5>
-            <h5>3. Repeat step 1.</h5>
-          </div>
-          ),
-          showCancelButton: false,
-          confirmButtonText: 'Got it!',
-        })
-    }
+    // function qAndAModal(){
+    //     MySwal.fire({
+    //       title: 'How to predict?',
+    //       html: (
+    //       <div>
+    //         <h5>1. Drag or select a images from your devices.</h5>
+    //         <h5>2. Wait for the result.</h5>
+    //         <h5>3. Repeat step 1.</h5>
+    //       </div>
+    //       ),
+    //       showCancelButton: false,
+    //       confirmButtonText: 'Got it!',
+    //     })
+    // }
 
     function searchBarfiler(strVal){
 
@@ -255,7 +255,7 @@ function PredictPage(){
     }
 
     const handleInputImages = (file) => {
-        console.log(file);
+        //console.log(file);
         if(!file){
             return
         }
@@ -265,10 +265,10 @@ function PredictPage(){
     return(
         <>
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
+            initial={{ x: 600, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -600, opacity: 0 }}
+            transition={{ duration: 0.5 }}
         >
         <div>
             <Container fluid >
@@ -283,7 +283,9 @@ function PredictPage(){
                 <Row className="mt-4">
 
                     <Col md={12} lg={6} className="mb-4">
-                        <img id="img" src={preview} style={{ width:"50%", height:"auto" }} alt="pics"/>
+                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.8 }} >
+                            <img id="img" src={preview} style={{ width:"50%", height:"auto" }} alt="pics"/>
+                        </motion.div>
                         <br></br>
                         <label><h3>Select image: </h3></label>{" "}
                         <div style={{ display:"flex", justifyContent:"center" }}>
@@ -316,11 +318,13 @@ function PredictPage(){
                 </Row>
             </div>
 
-            <BottomRightQuestion popFunc={qAndAModal}/>
+            {/* <BottomRightQuestion popFunc={qAndAModal}/> */}
 
             </Container>
 
         </div>
+        
+
         </motion.div>
         </>
     );

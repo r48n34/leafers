@@ -1,21 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense  } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useDispatch } from 'react-redux'
 import { setInitOffModelData } from "./pages/fyp/counterSlice";
 import { AnimatePresence } from 'framer-motion';
 
-import MouseParticles from 'react-mouse-particles'
-
-import LoginPage from './pages/fyp/LoginPage'
-import SelectModel from './pages/fyp/SelectModel'
-import PredictPage from './pages/fyp/PredictPage';
-import HistoryPage from './pages/fyp/HistoryPage';
-import SettingPage from './pages/fyp/SettingPage';
-import NavTop from './pages/fyp/smallComp/NavTop'
+import LoadingPage from "./pages/fyp/smallComp/LoadingPage";
 
 import 'sweetalert2/dist/sweetalert2.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
+
+const LoginPage = lazy(() => import('./pages/fyp/LoginPage') );
+const SelectModel = lazy(() => import('./pages/fyp/SelectModel') );
+const PredictPage = lazy(() => import('./pages/fyp/PredictPage') );
+const HistoryPage = lazy(() => import('./pages/fyp/HistoryPage') );
+const SettingPage = lazy(() => import('./pages/fyp/SettingPage') );
+const NavTop = lazy(() => import('./pages/fyp/smallComp/NavTop') );
 
 function App() {
 
@@ -28,11 +28,12 @@ function App() {
   },[])
 
   return (
-    <div>
-      <AnimatePresence exitBeforeEnter initial={false}>
-
+    <>
+    <Suspense fallback={<LoadingPage/>}>
+    <AnimatePresence exitBeforeEnter initial={false}>
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<LoginPage/>}/>
+
+        <Route path="/" element={ <LoginPage /> }/>
 
         <Route path="/fyp" element={<NavTop/>}>
           <Route path="select" element={<SelectModel/>}/>
@@ -44,10 +45,9 @@ function App() {
         <Route path="*" element={<Navigate to="/" />}/>
         
       </Routes>
-    </AnimatePresence>   
-
-    <MouseParticles g={1} color="random" cull="col,image-wrapper"/>
-    </div>
+    </AnimatePresence>  
+    </Suspense> 
+    </>
   );
 }
 

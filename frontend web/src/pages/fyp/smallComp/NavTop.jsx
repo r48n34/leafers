@@ -42,7 +42,7 @@ function NavTop(){
                     if(Object.keys(userSetting).length === 0){
 
                         let a = await userdataCheck(userData._delegate.uid);
-                        console.log(a);
+                        //console.log(a);
             
                         if(a.data.length === 0){
                             const obj = { uploadHist: true }

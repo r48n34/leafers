@@ -80,9 +80,9 @@ function SelectModel(){
 
     return(
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          initial={{ x: 600, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: -600, opacity: 0 }}
           transition={{ duration: 0.5 }}
         >
         <div>

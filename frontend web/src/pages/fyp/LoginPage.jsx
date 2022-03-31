@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { setGuest, setNotGuest } from './counterSlice';
+import HelmatComp from './helmatComp/HelmatComp';
 
 import { useNavigate } from "react-router-dom";
 import { Container, Button, Row, Col } from "react-bootstrap";
@@ -15,8 +16,6 @@ import { FaLeaf } from 'react-icons/fa';
 
 import TypeIt from "typeit-react";
 import { Zoom } from "react-awesome-reveal";
-
-import ParticlesBg from 'particles-bg'
 
 import Lottie from 'react-lottie-player'
 import webIcon from './lottieItems/pageweb.json'
@@ -77,8 +76,8 @@ const LoginPage = () => {
             <h3><b> <FaLeaf color={"#019444"}/> Leafers</b></h3>
           </Col>
           <Col lg={8} sm={8} style={{ textAlign:"right" }}>
-            <Button variant="outline-dark" className="button" onClick={() => guestLoginHandler()}> Guest Login <FcReadingEbook/> </Button>{"   "}
-            <Button variant="dark" className="button" onClick={() => signInWithGoogle()}> Google Login <FcGoogle/> </Button> 
+              <Button variant="outline-dark" className="button" onClick={() => guestLoginHandler()}> Guest Login <FcReadingEbook/> </Button>{"   "}
+              <Button variant="dark" className="button" onClick={() => signInWithGoogle()}> Google Login <FcGoogle/> </Button> 
           </Col>
         </Row>
       </Container>
@@ -93,21 +92,25 @@ const LoginPage = () => {
   return (
     <>
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      initial={{ x: 600, opacity: 0 }}
+      animate={{ x: 0, opacity: 1  }}
+      exit={{ x: -600, opacity: 0  }}
       transition={{ duration: 0.5 }}
     >
       <div>
 
+        <HelmatComp/>
+
         <LoginPageNav/>
         <Container fluid> 
 
-          <Zoom duration={3500}>
+          <Zoom duration={1500}>
           <Row>
             
             <Col xl={5} md={12} >
-              <div style={{ marginTop:"200px" , textAlign:"center" }}>
+
+              <motion.div whileHover={{ scale: 1.01 }}>
+              <div style={{ marginTop:"150px" , textAlign:"center" }}>
                 <h5 style={{ fontSize:"20px" }} ><b>Flowers predict with deep learning</b></h5>
                 <h1 style={{ fontSize:"80px" }}><b> <FaLeaf color={"#019444"}/> Leafers</b></h1>
                 <TypeIt
@@ -124,12 +127,15 @@ const LoginPage = () => {
                 <Lottie loop animationData={plants} play style={{ width: "60%", height: "60%" }}/>
                 </div>
               </div>
+              </motion.div>
 
             </Col>
             
 
             <Col xl={7} md={12} style={{ textAlign:"right" }}>
-              <Lottie loop animationData={webIcon} play style={{ width: "100%", height: "100%" }}/>
+              <motion.div whileHover={{ scale: 1.02 }}>
+                <Lottie loop animationData={webIcon} play style={{ width: "100%", height: "100%" }}/>
+              </motion.div>
             </Col>
           </Row>
           </Zoom>
@@ -152,8 +158,6 @@ const LoginPage = () => {
         </div>
 
       </div>
-
-      <ParticlesBg type="polygon" num={4}  bg={true} />
 
     </motion.div>
     </>
