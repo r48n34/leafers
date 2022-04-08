@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <input type="file" id="fileDate" accept="image/png, image/jpeg">
+    <button id="upload">upload</button>
+    <h1 id="msg"></h1>
+
+    <script>
+
+        const fileDate = document.getElementById("fileDate");
+        const upload = document.getElementById("upload");
+        const msg = document.getElementById("msg");
+
+        const serverUrl = "https://fypflowerpredict.azurewebsites.net/api/flowerPredictBlob?code=v6rrLrGMnDHrWvqgZHdfa0wbOZHg1duSwLKwBDUF02VA/6RuMWcnLw=="
+
+        upload.addEventListener("click" , async () =>{
+
+            try{
+
+                let img = fileDate.files[0]
+    
+                let reader = new FileReader();
+                reader.onload = async function() {
+    
+                    let arrayBuffer = this.result
+                    let array = await new Uint8Array(arrayBuffer)
+    
+                    console.log(arrayBuffer);
+                    console.log(array);
+    
+                    let res = await fetch(serverUrl,{
+                        method: 'POST',
+                        headers: { 'content-type': 'application/json' },
+                        body: JSON.stringify( array )
+                    });
+    
+                    let req = await res.json();
+    
+                    console.log(req);
+                    msg.innerHTML = req.label;
+    
+                }
+                msg.innerHTML = "Loading..."
+                reader.readAsArrayBuffer(img);
+            }
+            catch(err){
+                console.log(err);
+                console.log("Invalid input.")
+                msg.innerHTML = "Error"
+            }
+
+            
+        })
+
+    </script>
+    
+</body>
+</html>
