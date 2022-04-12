@@ -1,9 +1,11 @@
 # Leafers
-A final year project of using deep learning CNN models for predicting Hong Kong plants images.  
-**Website**: [Leafers website](https://leafers.xyz/)   
+A final year project of using deep learning CNN models for predicting Hong Kong plants images.    
+
+<img src="assert/postreFirstPage.png" width="600" alt="project_logo"/>   
+
+[Leafers website](https://leafers.xyz/) | [Googel Play](https://play.google.com/store/apps/details?id=leafers.apk&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1) | [Github](https://github.com/r48n34/leafers)  
+
 <a href='https://play.google.com/store/apps/details?id=leafers.apk&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="200" /></a>  
-   
-<img src="assert/postreFirstPage.png" width="600" alt="project_logo"/>    
 
 # Dataset
 Both dataset share the same attributes:  
