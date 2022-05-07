@@ -113,7 +113,7 @@ ON plant_data.id = plant_sc_name_data.plant_id
 JOIN plant_scientific_name_data
 ON plant_data.id = plant_scientific_name_data.plant_id
 -- WHERE plant_scientific_name_data.scientific_name IN ('× Thyrsocalamus liang') 
-WHERE plant_chinese_name_data.chinese_name like '%樹%' 
+-- WHERE plant_chinese_name_data.chinese_name like '%樹%' 
 GROUP BY plant_data.id;
 
 COPY (plant_data) TO 'F:\test vsxc code\codeNotes\university\webScraper\runSql\sqlPlay\test.csv' (FORMAT CSV, HEADER TRUE, DELIMITER ',', ENCODING 'utf-8');
