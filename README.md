@@ -85,7 +85,7 @@ Url: https://www.kaggle.com/r48n34/flowers-yolov5
 **Website** : React with Vite ( Firebase, tfjs )    
 **Apps** : React native with expo ( tfjs )  
 **API** : Azure functions    
-**Server**: Azure Static Web Apps  
+**Server**: Azure -> vercel   
 
 # Special Thanks  
 
