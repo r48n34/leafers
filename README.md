@@ -72,8 +72,8 @@ Url: https://www.kaggle.com/r48n34/flowers-yolov5
 | 18    | max scale + CutMix     | Official effNetv2b1          | 240, \[0,255\] | 7363       | \-354 | 7009         | 9183         |
 | 19    | none                   | Official effNetb0            | 224, \[0,255\] | 7417       | \-328 | 7089         | 8604         |
 | 20    | RandAug cont 19 model  | Official effNetb0            | 224, \[0,255\] | 7445       | \-390 | 7055         | 8482         |
-| 21    | max scale + RandAug    | Official effNetv2b1          | 240, \[0,255\] | 7417       | \-111 | 7306         | 9330         |
-| 22    | max scale + RandAug    | 13,16,21 stacking            | 300, \[0,255\] | 7726       | +5    | 7731         | 9475         |
+| [21](model/flower400Code021model)    | max scale + RandAug    | Official effNetv2b1          | 240, \[0,255\] | 7417       | \-111 | 7306         | 9330         |
+| [22](model/flower400Code022model)    | max scale + RandAug    | 13,16,21 stacking            | 300, \[0,255\] | 7726       | +5    | 7731         | 9475         |
 
 ### YoloV5 Best.pt
 
@@ -82,10 +82,10 @@ Url: https://www.kaggle.com/r48n34/flowers-yolov5
 | 0.023474       | 0.023782       | 0.9516    | 0.77108| 0.87833 | 0.63541      | 0.031121     | 0.012252     |
 
 # Applications development
-**Website** : [React with Vite (Typescript, Firebase, tfjs, Mantine, redux RTK...)](frontend_web/newTsVite)    
-**Apps (Android)** : React native with expo (tfjs)  
-**Serverless API deploy** : Azure functions    
-**Frontend deploy**: (Old) Azure static web app => (New) Vercel   
+**Website** : [React with Vite (Typescript, Firebase, tfjs, Mantine, redux RTK...)](frontendWeb/newTsVite)    
+**Apps (Android)** : [React native with expo (tfjs)](nativeApps)  
+**Serverless API deploy** : [Azure functions](api)    
+**Frontend deploy**: [(Old) Azure static web app => (New) Vercel](https://vercel.com/)  
 
 # Special Thanks  
 
