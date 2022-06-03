@@ -82,10 +82,10 @@ Url: https://www.kaggle.com/r48n34/flowers-yolov5
 | 0.023474       | 0.023782       | 0.9516    | 0.77108| 0.87833 | 0.63541      | 0.031121     | 0.012252     |
 
 # Applications development
-**Website** : React with Vite ( Firebase, tfjs )    
-**Apps** : React native with expo ( tfjs )  
-**API** : Azure functions    
-**Server**: Azure -> vercel   
+**Website** : [React with Vite (Typescript, Firebase, tfjs, Mantine, redux RTK...)](frontend_web/newTsVite)    
+**Apps (Android)** : React native with expo (tfjs)  
+**Serverless API deploy** : Azure functions    
+**Frontend deploy**: (Old) Azure static web app => (New) Vercel   
 
 # Special Thanks  
 
