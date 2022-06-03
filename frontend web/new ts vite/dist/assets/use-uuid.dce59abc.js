@@ -1,1 +1,0 @@
-import{r as t}from"./index.23e8200d.js";const s=typeof document!="undefined"?t.exports.useLayoutEffect:t.exports.useEffect;function u(){return`mantine-${Math.random().toString(36).slice(2,11)}`}function a(e){const[o,r]=t.exports.useState("");return s(()=>{r(u())},[]),e||o}export{s as a,u as r,a as u};
