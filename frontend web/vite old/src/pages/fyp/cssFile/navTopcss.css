@@ -1,0 +1,17 @@
+.brandLogo{
+    color: #45993a;
+}
+
+.brandLogo:hover{
+    text-decoration: none;
+    color: #5ac74b;
+}
+
+.histClass{
+    color: #7C7C7D;
+}
+
+.histClass:hover{
+    text-decoration: none;
+    color: #7C7C7D;
+}
