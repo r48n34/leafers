@@ -1,13 +1,15 @@
-import { Card, Container, Button, Grid, Loader, UnstyledButton  } from '@mantine/core';
+import { Card, Container, Button, Grid, UnstyledButton, Space  } from '@mantine/core';
 
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 
 import { useSelector } from 'react-redux'
+import { RootState } from '../store';
 import { FileUploader } from "react-drag-drop-files";
 
 import { motion } from 'framer-motion';
 import { FiArrowLeft } from "react-icons/fi";
+import { ZoomQuestion } from 'tabler-icons-react';
 
 import { createModel, predictResultTopFive } from '../utility/predictUtili'
 import { checkModelExist } from '../utility/indexdbUtili'
@@ -22,40 +24,21 @@ import ModelResultBox from '../smallComp/predictComp/ModelResultBox'
 import DeleteModelBtn from '../smallComp/predictComp/DeleteModelBtn'
 import SaveModelBtn from '../smallComp/predictComp/SaveModelBtn'
 
+import { dummyData, modelDataInterface } from "../interface/data/modelDataInterface";
+
+import { showNotification, updateNotification } from '@mantine/notifications';
+
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { modelDataInterface } from "../interface/data/modelDataInterface";
-import { RootState } from '../store';
 const MySwal = withReactContent(Swal)
+
+import { useT } from "talkr";
 
 let modelIndex:number | string;
 
-const dummyData:modelDataInterface = {
-
-    "modeltitle":"",
-    "shortTitle":"",
-    "modeltype":"",
-    "iconName":"",
-    "bgColor":"",
-    "modelSubtitle":"",
-    "modelapiPath":"",
-    "modelShowStatus": true,
-    "modelImagesUri": "",
-    "imageAlt": "",
-    "predictMode": "",
-    "online" : true,
-    "buttonDisable": false,
-    "defaultThreshold" : 0.4,
-    "labels": [] ,
-    "offlineInfo" : {
-        "size": 0,
-        "divValue": 1,
-        "subVal": 1,
-        "modelFunctionId" : -1
-    }
-}
-
 function PredictPage(){
+    
+    const { T } = useT();
 
     const [preview, setPreview] = useState<any>(full); // img path
     const [myModel, setMyModel] = useState<any>(); // model container
@@ -95,8 +78,8 @@ function PredictPage(){
             }
 
             MySwal.fire({
-                title: 'Model loading...',
-                html: 'Waiting for model load in, please wait.',
+                title: T("Loading") as string,
+                html: T("Waitingload") as string,
                 timerProgressBar: true,
                 allowEscapeKey: false,
                 showCloseButton: false,
@@ -148,7 +131,16 @@ function PredictPage(){
                 confident : "",
                 timeTaken: "",
                 timeTakenOffset: "",
-            });   
+            });
+            
+            showNotification({
+                id: 'predicting-data',
+                title: 'Predicting',
+                loading: true,
+                message: 'Waiting for the result... First Time may takes longer...',
+                autoClose: false,
+                disallowClose: true,
+            })
 
             let res = await predictResultTopFive(
                 myModel,
@@ -172,10 +164,26 @@ function PredictPage(){
                 await addCollectionsTwoLayerNoSecDoc("users", userInfo.uid, "predictHistory", dbObject);
             }
 
-            if(parseInt(res.top1.confident) < myModelInfo.defaultThreshold * 100){
-                res['object'] = "Recognize unsuccess";
-            }
+            updateNotification({
+                id: 'predicting-data',
+                color: 'teal',
+                title: 'Done',
+                message: 'Predict success.',
+                autoClose: 3000,
+            });
 
+            console.log(+res.top1.confident * 100);
+            console.log(parseInt(res.top1.confident));
+
+            if(+res.top1.confident * 100 < myModelInfo.defaultThreshold){
+                showNotification({
+                    title: 'Notices',
+                    icon: <ZoomQuestion />,
+                    message: 'Looks like the top 1 accuracy is low, the model may not recognize this images.',
+                    color: 'green',
+                    autoClose: 20000,
+                })
+            }
 
             setloadingPredict(false);
             setMessage(res);
@@ -210,16 +218,18 @@ function PredictPage(){
 
             <div style={{textAlign:"center"}}>
 
-                <h1 style={{textAlign: "center"}}><b>Input your pictures ({myModelInfo.shortTitle})</b></h1>
+                <h1 style={{textAlign: "center"}}><b>{T("Inputyourpictures")} ({myModelInfo.shortTitle})</b></h1>
 
                 <Grid className="mt-4">
 
-                    <Grid.Col md={12} lg={6} className="mb-4">
+                    <Grid.Col md={12} lg={6} mb={4}>
+
                         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.8 }} >
                             <img id="img" src={preview} style={{ width:"50%", height:"auto" }} alt="pics"/>
                         </motion.div>
                         <br></br>
-                        <label><h3>Select image: </h3></label>{" "}
+
+                        <label><h3>{T("Selectimage")}: </h3></label>{" "}
                         <div style={{ display:"flex", justifyContent:"center" }}>
                             <FileUploader handleChange={handleInputImages} name="file" types={["JPG", "PNG"]} />
                         </div>
@@ -227,30 +237,26 @@ function PredictPage(){
 
                     <Grid.Col md={12} lg={6}>           
                     <Card shadow="lg" className="mb-2" style={{ borderRadius:"20px", textAlign:"center"}}>     
-                        {/* <Card.Body style={{marginTop:"10px"}}> */}
-                        <h1>Informations</h1>
+                        
+                        <h1>{T("Informations")}</h1>
 
                         { isCurrentModelDownloaded ? 
-                        <DeleteModelBtn modelName={myModelInfo.shortTitle}/> :
-                        <SaveModelBtn myModel={myModel} shortTitle={myModelInfo.shortTitle}/> }
+                            <DeleteModelBtn modelName={myModelInfo.shortTitle}/> :
+                            <SaveModelBtn myModel={myModel} shortTitle={myModelInfo.shortTitle}/> 
+                        }
                         {"  "}
-                        <Button color="gray" onClick={async() => labelSearchModel(myModelInfo.labels) }> Know more </Button> 
-
-                        { loadingPredict && <div><Loader color="gray"/><h4>May take times for first time.</h4></div>}               
-                        { message.status ? <div><ModelResultBox message={message} /></div> : <h1>Invalid input, please try again.</h1>}
-
-                        <h3 style={{textAlign:"left"}}>Target object ({myModelInfo.labels.length}) </h3>
+                        <Button color="gray" onClick={async() => labelSearchModel(myModelInfo.labels) }> {T("Knowmore")} </Button> 
+                        <Space h="lg"/>
+                        { message.status ? <div><ModelResultBox message={message} /></div> : <h1>{T("Invalidinput")}.</h1>}
                         
                         <br/>
-
-                        {/* </Card.Body> */}
+         
                     </Card>    
                     </Grid.Col>
 
                 </Grid>
             </div>
 
-            {/* <BottomRightQuestion popFunc={qAndAModal}/> */}
 
             </Container>
 

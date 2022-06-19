@@ -8,11 +8,12 @@ import { setInitOffModelData } from "../../counterSlice";
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { useT } from 'talkr';
 const MySwalDel = withReactContent(Swal)
 
 
 function DeleteModelBtn({ modelName }:{ modelName:string }){
-
+    const { T } = useT();
     const dispatch = useDispatch();
 
     function alertPop(modelName:string){
@@ -42,7 +43,7 @@ function DeleteModelBtn({ modelName }:{ modelName:string }){
         }
 
         const displayIcon = res ? 'success' : 'error';
-        const displayMessage = res ? 'Your model has been delete locally.' : 'Occur error while delete model.';
+        const displayMessage = res ? T("Yourmodelhabeendeletelocally") as string : T("Occurerrorwhiledeletemodel") as string;
         
         MySwalDel.fire({
             position: 'top-end',
@@ -54,7 +55,7 @@ function DeleteModelBtn({ modelName }:{ modelName:string }){
     }
     
     return(
-        <Button color="red" onClick={() => alertPop(modelName) }> Delete model </Button>
+        <Button color="red" onClick={() => alertPop(modelName) }> {T("DeleteModel")} </Button>
     );
 }
 

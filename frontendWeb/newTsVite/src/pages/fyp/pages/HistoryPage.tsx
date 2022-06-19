@@ -7,6 +7,7 @@ import DataTable from 'react-data-table-component';
 import { getTwoLayerCollections, getTwoLayerCollectionsContinue } from '../services/firebaseUse'
 import { motion } from 'framer-motion';
 import { RootState } from '../store';
+import { useT } from 'talkr';
 
 const topConfidSort = (rowA:any, rowB:any) => {
     const a = typeof rowA.confident !== "number" ? parseInt(rowA.confident.replaceAll('%', '')) : rowA.confident;
@@ -44,6 +45,7 @@ const columns = [
 ];
 
 function HistoryPage(){
+    const { T } = useT();
     const [ tableData, setTableData ] = useState<any>([]);
     const [ maxHistoryFetched, setMaxHistoryFetched ] = useState<boolean>(false);
     const countModel = useSelector( (state:RootState) => state.counter.userData);
@@ -106,8 +108,8 @@ function HistoryPage(){
 
             <div style={{ textAlign:"right"}}>
                 { !maxHistoryFetched ? 
-                    <Button mt={6} onClick={ async() => { getRemainingData() }}>See more</Button> :
-                    <h5 style={{ textAlign:"center"}}> <b>No more history</b> </h5>
+                    <Button mt={6} onClick={ async() => { getRemainingData() }}>{T("Seemore")}</Button> :
+                    <h5 style={{ textAlign:"center"}}> <b>{T("Nomorehistory")}</b> </h5>
                 }
             </div>
         

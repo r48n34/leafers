@@ -12,7 +12,7 @@
         "predictMode": "onlineModel",
         "online" : true,
         "buttonDisable": false,
-        "defaultThreshold" : 0.45,
+        "defaultThreshold" : 45,
         "labels": [
             "Apple pie","Baby back ribs","Baklava","Beef carpaccio","Beef tartare","Beet salad",
             "Beignets","Bibimbap","Bread pudding","Breakfast burrito","Bruschetta","Caesar salad",
@@ -51,7 +51,7 @@
         "predictMode": "onlineModel",
         "online" : true,
         "buttonDisable": false,
-        "defaultThreshold" : 0.45,
+        "defaultThreshold" : 45,
         "labels": [
             "Abelia chinensis",
             "Abelia × grandiflora",

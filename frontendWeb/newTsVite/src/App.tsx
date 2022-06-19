@@ -7,14 +7,16 @@ import { AnimatePresence } from 'framer-motion';
 
 import { MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core';
 import { useHotkeys, useLocalStorage } from '@mantine/hooks';
+
+import { ModalsProvider } from '@mantine/modals';
 import { NotificationsProvider } from '@mantine/notifications';
+import { ParallaxProvider } from 'react-scroll-parallax';
 
 import LoadingPage from "./pages/fyp/smallComp/LoadingPage";
 
 import 'sweetalert2/dist/sweetalert2.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-
 
 const LoginPage = lazy(() => import('./pages/fyp/pages/LoginPage') );
 const SelectModel = lazy(() => import('./pages/fyp/pages/SelectModel') );
@@ -50,9 +52,10 @@ function App() {
     <>
     <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
     <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+    <ModalsProvider>
     <NotificationsProvider>
+      <ParallaxProvider>
       <Suspense fallback={<LoadingPage/>}>
-
       <AnimatePresence exitBeforeEnter initial={false}>
         <Routes location={location} key={location.pathname}>
 
@@ -71,9 +74,10 @@ function App() {
           
         </Routes>
       </AnimatePresence>  
-
       </Suspense>
+      </ParallaxProvider>
     </NotificationsProvider>
+    </ModalsProvider>
     </MantineProvider>
     </ColorSchemeProvider>
     </>

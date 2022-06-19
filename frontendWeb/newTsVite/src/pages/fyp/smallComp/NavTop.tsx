@@ -21,16 +21,11 @@ import SpotlightLayout from './grandComp/SpotlightLayout';
 
 import '../cssFile/navTopcss.css';
 import { RootState } from '../store';
-
-const navArray = [
-    { title: "Predict Model", routeSrc: "/fyp/select", icon: <FaBong/>, requireLoginShow: false, showsAfterLogin: true },
-    { title: "Setting", routeSrc: "/fyp/setting", icon: <FaCog/>, requireLoginShow: true, showsAfterLogin: true },
-    { title: "History", routeSrc: "/fyp/history", icon: <FaHistory/>, requireLoginShow: true, showsAfterLogin: true },
-    { title: "Server predict", routeSrc: "playsApi/Flowers400", icon: <FaDatabase/>, requireLoginShow: false, showsAfterLogin: true },
-    { title: "Back Home", routeSrc: "/", icon: <FiLogOut/>, requireLoginShow: false, showsAfterLogin: false },
-]
+import ToggleLanguageBtn from './loginComp/support/ToggleLanguageBtn';
+import { useT } from 'talkr';
 
 function NavTop(){
+    const { T } = useT();
     let navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -39,6 +34,14 @@ function NavTop(){
     const isGuest = useSelector( (state:RootState) => state.counter.isGuest);
 
     const [ opened, setOpened ] = useState<boolean>(false);
+
+    const navArray = [
+        { title: T("PredictModel") as string, routeSrc: "/fyp/select", icon: <FaBong/>, requireLoginShow: false, showsAfterLogin: true },
+        { title: T("Setting") as string, routeSrc: "/fyp/setting", icon: <FaCog/>, requireLoginShow: true, showsAfterLogin: true },
+        { title: T("History") as string, routeSrc: "/fyp/history", icon: <FaHistory/>, requireLoginShow: true, showsAfterLogin: true },
+        { title: T("Serverpredict") as string, routeSrc: "playsApi/Flowers400", icon: <FaDatabase/>, requireLoginShow: false, showsAfterLogin: true },
+        { title: T("BackHome") as string, routeSrc: "/", icon: <FiLogOut/>, requireLoginShow: false, showsAfterLogin: false },
+    ]
 
     const finalArr = navArray
     .filter( v => !isGuest ? v.showsAfterLogin : true)
@@ -108,12 +111,14 @@ function NavTop(){
                     <Avatar radius="xl" src={userData.photoURL} style={{ width: "25px"}}/>
 
                     <h5 onClick={ () => !isGuest && navigate('/fyp/setting') } style={{ margin:0 }}> 
-                        Hello {userData.displayName || "User"}!  
+                        {T("Hello")} {userData.displayName || "User"}!  
                     </h5>
 
                     {!isGuest && <LogoutBtn format="btn"/>}
 
                     <ThemeToggleBtn/>
+                    <ToggleLanguageBtn/>
+
                 </Group>
             }
             padding="xl"
@@ -121,7 +126,7 @@ function NavTop(){
         >
             <Space h="sm"/>
             {finalArr.map( v => (
-                    <div key={v.title} style={{ marginTop:"1rem"}}>
+                    <div key={v.title as string} style={{ marginTop:"1rem"}}>
                     <UnstyledButton onClick={() => navigate(v.routeSrc)}>
                         <Group>
                             <Avatar size={40} color="blue">{v.icon}</Avatar>

@@ -16,11 +16,13 @@ import ConfigBox from '../smallComp/histComp/ConfigBox'
 import Lottie from 'react-lottie-player'
 import settingIcon from '../lottieItems/settingIcon.json'
 import { RootState } from '../store';
+import { useT } from 'talkr';
 
 function SettingPage(){
     const [avaModelNum, setAvaModelNum] = useState(0);
     const userData = useSelector( (state:RootState) => state.counter.userData);
     const offModelData = useSelector( (state:RootState) => state.counter.offModelData);
+    const { T } = useT();
 
     useEffect( () => { 
         document.title = "Leafers - Setting"
@@ -40,7 +42,7 @@ function SettingPage(){
         <div>
         <Container fluid>
 
-            <h1><b>User Info</b></h1>
+            <h1><b>{T("UserInfo")}</b></h1>
 
             <Grid>
 

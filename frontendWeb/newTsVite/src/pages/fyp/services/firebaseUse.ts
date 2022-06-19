@@ -2,6 +2,10 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+const MySwalServices = withReactContent(Swal)
+
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
     authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -15,15 +19,52 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account' });
-
+const providerGithub = new firebase.auth.GithubAuthProvider();
+const providerFacebook = new firebase.auth.FacebookAuthProvider();
 const auth = firebase.auth();
 const db = firebase.firestore();
+
+provider.setCustomParameters({ prompt: 'select_account' });
 
 async function signInWithGoogle(){
     auth
     .signInWithPopup(provider)
-    .catch(function (error){console.error(error);});
+    .catch((error) => {
+        MySwalServices.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.message,
+            showConfirmButton: true,
+            backdrop: true
+        });
+    });
+}
+
+async function signInWithGithub(){
+    auth
+    .signInWithPopup(providerGithub)
+    .catch((error:any) => {
+        MySwalServices.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.message,
+            showConfirmButton: true,
+            backdrop: true
+        });
+    });
+}
+async function signInWithFacebook(){
+    auth
+    .signInWithPopup(providerFacebook)
+    .catch((error:any) => {
+        MySwalServices.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.message,
+            showConfirmButton: true,
+            backdrop: true
+        });
+    });
 }
 
 const signOutAcc = () => auth.signOut().catch(function (error){console.error(error);});
@@ -197,7 +238,9 @@ async function updateSpecificUserSetting(userId:string, singleObj:any){
 
 export {
     auth, 
-    signInWithGoogle, 
+    signInWithGoogle,
+    signInWithGithub,
+    signInWithFacebook,
     signOutAcc, 
     checkLogin, 
     addCollectionsOneLayer,  

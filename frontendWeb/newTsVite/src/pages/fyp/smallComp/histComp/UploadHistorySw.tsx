@@ -5,9 +5,10 @@ import { showNotification } from '@mantine/notifications';
 
 import { Switch } from '@mantine/core';
 import { RootState } from '../../store';
+import { useT } from 'talkr';
 
 function UploadHistorySw(){
-
+    const { T } = useT();
     const userData = useSelector( (state:RootState) => state.counter.userData);
     const userSetting = useSelector( (state:RootState) => state.counter.userSetting);
     const dispatch = useDispatch();
@@ -18,8 +19,8 @@ function UploadHistorySw(){
         await updateSpecificUserSetting( userData.uid, {uploadHist: isOn});
 
         showNotification({
-            title: 'Update success',
-            message: `Your upload status is ${isOn ? "On" : "Off"} now.`,
+            title: T("Updatesuccess"),
+            message: T("Updatesuccess") as string + T(isOn ? "On" : "Off") + "now.",
         })
         dispatch( updateUserSettingUploadHist(isOn) );
 

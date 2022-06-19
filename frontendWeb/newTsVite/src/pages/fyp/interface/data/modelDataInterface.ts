@@ -23,3 +23,28 @@ interface OfflineInfo {
     subVal: number;
     modelFunctionId: number;
 }
+
+export const dummyData:modelDataInterface = {
+
+    "modeltitle":"",
+    "shortTitle":"",
+    "modeltype":"",
+    "iconName":"",
+    "bgColor":"",
+    "modelSubtitle":"",
+    "modelapiPath":"",
+    "modelShowStatus": true,
+    "modelImagesUri": "",
+    "imageAlt": "",
+    "predictMode": "",
+    "online" : true,
+    "buttonDisable": false,
+    "defaultThreshold" : 0.4,
+    "labels": [] ,
+    "offlineInfo" : {
+        "size": 0,
+        "divValue": 1,
+        "subVal": 1,
+        "modelFunctionId" : -1
+    }
+}

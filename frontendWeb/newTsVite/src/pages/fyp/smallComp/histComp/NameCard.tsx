@@ -1,7 +1,9 @@
-// import { Row, Col, Card } from "react-bootstrap";
 import { Card, Grid } from '@mantine/core';
+import { useT } from 'talkr';
 
 function NameCard({ userInfo }:{ userInfo:any }){
+    const { T } = useT();
+    
     return(
     <Card shadow="lg" className="mb-2" style={{ borderRadius:"15px" }}>
         {/* <Card.Body> */}
@@ -13,10 +15,10 @@ function NameCard({ userInfo }:{ userInfo:any }){
             </Grid.Col>
 
             <Grid.Col md={9} sm={9} xl={9}>
-                <h5>Name: {userInfo.displayName || ""}</h5>
-                <h5>Email: {userInfo.email || ""}</h5>
-                <h5>Create at: {userInfo.creationTime || ""}</h5>
-                <h5>Last Sign In: {userInfo.lastSignInTime || ""}</h5>
+                <h5>{T("Name")}: {userInfo.displayName || ""}</h5>
+                <h5>{T("Email")}: {userInfo.email || ""}</h5>
+                <h5>{T("Createat")}: {userInfo.creationTime || ""}</h5>
+                <h5>{T("LastSignIn")}: {userInfo.lastSignInTime || ""}</h5>
             </Grid.Col>
         </Grid>
         {/* </Card.Body> */}

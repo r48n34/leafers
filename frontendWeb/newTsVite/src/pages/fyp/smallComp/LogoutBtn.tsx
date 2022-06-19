@@ -7,9 +7,11 @@ import { FiLogOut } from 'react-icons/fi';
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { useT } from 'talkr';
 const MySwalLogout = withReactContent(Swal)
 
 function LogoutBtn({ format }:{ format: "btn" | "text" }) {
+    const { T } = useT();
     let navigate = useNavigate();
 
     async function logoutHelper(){
@@ -27,13 +29,17 @@ function LogoutBtn({ format }:{ format: "btn" | "text" }) {
 
     if(format === "btn"){
         return(
-            <Button size="xs" variant="light"  onClick={ async () => logoutHelper() }> Sign Out </Button>
+            <Button size="xs" variant="light"  onClick={ async () => logoutHelper() }> 
+                {T("SignOut")} 
+            </Button>
         );
     }
 
     if(format === "text"){
         return(
-            <h5 color="white" onClick={ async () => logoutHelper() }> {" "} Logout <FiLogOut/> </h5>
+            <h5 color="white" onClick={ async () => logoutHelper() }> 
+                {" "} {T("SignOut")} <FiLogOut/> 
+            </h5>
         );
     }
 

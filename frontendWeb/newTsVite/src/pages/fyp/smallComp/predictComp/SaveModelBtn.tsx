@@ -8,12 +8,13 @@ import { getAllIndexedDbModelData } from '../../utility/indexdbUtili'
 
 import { setInitOffModelData } from "../../counterSlice";
 
-import Swal from 'sweetalert2'
+import Swal, { SweetAlertIcon } from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { useT } from 'talkr';
 const MySwalDel = withReactContent(Swal)
 
 function SaveModelBtn({ myModel, shortTitle }:{ myModel:any, shortTitle:string }){
-
+    const { T } = useT();
     const dispatch = useDispatch();
 
     async function saveLocalModel(model:any, title:string){
@@ -26,8 +27,8 @@ function SaveModelBtn({ myModel, shortTitle }:{ myModel:any, shortTitle:string }
             dispatch( setInitOffModelData() as any ) 
         }
 
-        const displayIcon = res ? 'success' : 'error';
-        const displayMessage = res ? 'Your model has been saved.' : 'Occur error while saving model.';
+        const displayIcon = res ? "success" : "error";
+        const displayMessage = res ? (T("Yourmodelhasbeensaved") as string) : (T("Occurerrorwhilesavingmodel") as string);
         
         MySwalDel.fire({
             position: 'top-end',
@@ -40,7 +41,7 @@ function SaveModelBtn({ myModel, shortTitle }:{ myModel:any, shortTitle:string }
     }
 
     return(
-        <Button color="gray" onClick={async() => saveLocalModel(myModel, shortTitle) }> Save model </Button>
+        <Button color="gray" onClick={async() => saveLocalModel(myModel, shortTitle) }> {T("savemodel")} </Button>
     );
 
 }

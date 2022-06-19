@@ -8,6 +8,7 @@ import DeleteModelBtn from '../predictComp/DeleteModelBtn'
 import HistTableGen from './HistTableGen'
 import { modelDataInterface } from "../../interface/data/modelDataInterface";
 import { RootState } from '../../store';
+import { useT } from 'talkr';
 
 function ModelTableGenHelper({ smallData }: { smallData: modelDataInterface[] }):any{
 
@@ -26,14 +27,14 @@ function ModelTableGenHelper({ smallData }: { smallData: modelDataInterface[] })
 }
 
 function OfflineCardList(){
-
+    const { T } = useT();
     const modelData = useSelector( (state:RootState) => state.counter.offModelData);
     const topArr = ["No.", "Model Name","Delete"]
     
     return(
         <Card shadow="lg" className="mb-2" style={{ borderRadius:"15px" }}>
         
-          <h4> <BsFillCartFill style={{float:"left", marginTop:"2.5px"}}/>{" "} <b>Offline Model List</b></h4>
+          <h4> <BsFillCartFill style={{float:"left", marginTop:"2.5px"}}/>{" "} <b>{T("OfflineModelList")}</b></h4>
           <hr/>
           <HistTableGen data={<ModelTableGenHelper smallData={modelData as modelDataInterface[]} />} col={topArr} />
         
