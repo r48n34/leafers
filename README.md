@@ -95,5 +95,8 @@ Url: https://www.kaggle.com/r48n34/flowers-yolov5
 - [Produce Green HK](http://www.producegreen.org.hk/hkwildflower/main_04_01.htm)    
 
 ### Protocol References:
-- [Smart Flower Atlas](https://plant-tw.github.io/)    
-- [Pl@ntNet](https://identify.plantnet.org/zh)      
+- [Smart Flower Atlas](https://plant-tw.github.io/)      
+- [Pl@ntNet](https://identify.plantnet.org/zh)    
+
+### Media:  
+- [startupbeat](http://startupbeat.hkej.com/?p=122323)         
