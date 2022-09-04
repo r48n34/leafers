@@ -8,7 +8,9 @@ import { getAllIndexedDbModelData } from '../../utility/indexdbUtili'
 
 import { setInitOffModelData } from "../../counterSlice";
 
-import Swal, { SweetAlertIcon } from 'sweetalert2'
+import { Database } from 'tabler-icons-react';
+
+import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { useT } from 'talkr';
 const MySwalDel = withReactContent(Swal)
@@ -41,7 +43,13 @@ function SaveModelBtn({ myModel, shortTitle }:{ myModel:any, shortTitle:string }
     }
 
     return(
-        <Button color="gray" onClick={async() => saveLocalModel(myModel, shortTitle) }> {T("savemodel")} </Button>
+        <Button 
+            color="green"
+            leftIcon={ <Database size={20} />}
+            onClick={async() => saveLocalModel(myModel, shortTitle) }
+        > 
+            {T("savemodel")} 
+        </Button>
     );
 
 }

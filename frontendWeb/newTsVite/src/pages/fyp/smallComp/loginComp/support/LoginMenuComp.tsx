@@ -11,14 +11,21 @@ function LoginMenuComp(){
 
     return (
         <>
-        <Menu control={<Button rightIcon={<Login size={14} />} color="dark">{T("LoginServices")}</Button>}>
+        <Menu shadow="md">
+            <Menu.Target>
+                <Button rightIcon={<Login size={14} />} color="dark">
+                    {T("LoginServices")}
+                </Button>
+            </Menu.Target>
 
-            <Menu.Label>{T("SocialPlatform")}</Menu.Label>
-            <Menu.Item onClick={() => signInWithGoogle()} icon={<FcGoogle size={14} />}>{T("GoogleLogin")}</Menu.Item>
-            <Menu.Item onClick={() => signInWithFacebook()} icon={<FaFacebook size={14} />}>{T("FacebookLogin")}</Menu.Item>
+            <Menu.Dropdown>
+                <Menu.Label style={{ textAlign:"left" }}>{T("SocialPlatform")}</Menu.Label>
+                <Menu.Item onClick={() => signInWithGoogle()} icon={<FcGoogle size={14} />}>{T("GoogleLogin")}</Menu.Item>
+                <Menu.Item onClick={() => signInWithFacebook()} icon={<FaFacebook size={14} />}>{T("FacebookLogin")}</Menu.Item>
 
-            <Menu.Label>{T("Developers")}</Menu.Label>
-            <Menu.Item onClick={() => signInWithGithub()} icon={<FaGithub size={14} />}>{T("GithubLogin")}</Menu.Item>
+                <Menu.Label style={{ textAlign:"left" }}>{T("Developers")}</Menu.Label>
+                <Menu.Item onClick={() => signInWithGithub()} icon={<FaGithub size={14} />}>{T("GithubLogin")}</Menu.Item>
+            </Menu.Dropdown>
         </Menu>
         </>
     )

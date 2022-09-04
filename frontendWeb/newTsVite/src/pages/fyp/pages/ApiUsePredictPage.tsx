@@ -1,10 +1,10 @@
-import { Card, Container, Button, Grid, Loader } from '@mantine/core';
+import { Card, Container, Grid, Loader, Group, Space } from '@mantine/core';
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import { FileUploader } from "react-drag-drop-files";
-import { labelSearchModel } from "../smallComp/LabelSearchModel";
+import SearchLabelDetails from "../smallComp/LabelSearchModel";
 
 import { motion } from 'framer-motion';
 import { FiArrowLeft } from "react-icons/fi";
@@ -25,22 +25,22 @@ function ApiUsePredictPage():any{
     const [message, setMessage] = useState<any>({ status:true }); // message container
 
     useEffect(() => {
-        document.title = "Leafers - Predict Api"   
+        
+        ( async () => {
+            document.title = "Leafers - Predict Api";  
+
+            if(modelLables.length === 0){
+                let result = await LabelSearchModelFetch();
+                console.log(result)
+                setModelLables(result.labels);
+                // labelSearchModel(result.labels);
+            }
+            else{
+                // labelSearchModel(modelLables);
+            }
+        })()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    async function labelSearchModelhandler(){
-
-        if(modelLables.length === 0){
-            let result = await LabelSearchModelFetch();
-            setModelLables(result.labels);
-            labelSearchModel(result.labels);
-        }
-        else{
-            labelSearchModel(modelLables);
-        }
-
-    }
 
     useEffect(() => {
   
@@ -117,17 +117,15 @@ function ApiUsePredictPage():any{
                     <Grid.Col md={12} lg={6}>           
                     <Card shadow="lg" className="mb-2" style={{ borderRadius:"20px", textAlign:"center"}}>     
                         
-                        <h1>Informations</h1>
-
-                        {"  "}
-                        <Button onClick={ async () => labelSearchModelhandler() }> Know more </Button> 
 
                         { loadingPredict && <div><Loader color="gray"/><h4>May take times for first time.</h4></div>}               
-                        { message.status ? <div><ModelResultBox message={message} /></div> : <h1>Invalid input, please try again.</h1>}
+                        { message.status ? <div><ModelResultBox message={message} isLoading={loadingPredict} /></div> : <h1>Invalid input, please try again.</h1>}
                         
-                        <br/>
+                        <Space h="lg"/>
+                        <Group position='right'>
+                            <SearchLabelDetails labelsArr={modelLables}/>
+                        </Group>
 
-                        {/* </Card.Body> */}
                     </Card>    
                     </Grid.Col>
 

@@ -5,7 +5,7 @@ import { setoffModelData } from '../../counterSlice'
 import { deleteIndexedDb, getAllIndexedDbModelData } from '../../utility/indexdbUtili'
 
 import { setInitOffModelData } from "../../counterSlice";
-
+import { DatabaseOff } from 'tabler-icons-react';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { useT } from 'talkr';
@@ -55,7 +55,13 @@ function DeleteModelBtn({ modelName }:{ modelName:string }){
     }
     
     return(
-        <Button color="red" onClick={() => alertPop(modelName) }> {T("DeleteModel")} </Button>
+        <Button 
+            color="red"
+            leftIcon={ <DatabaseOff size={20} />}
+            onClick={() => alertPop(modelName) }
+        > 
+            {T("DeleteModel")} 
+        </Button>
     );
 }
 

@@ -17,6 +17,7 @@ function SpotlightLayout({ children, data }: SpotlightLayoutProps) {
     const actions:SpotlightAction[] = data.map( v => {
         return {
             title: v.title,
+            icon: v.icon,
             description: v.title,
             onTrigger: () => navigate(v.routeSrc),
         }

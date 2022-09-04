@@ -1,8 +1,24 @@
 import * as tf from '@tensorflow/tfjs';
 //<input type="file" name="avatar" accept="image/png, image/jpeg" onInput={(e) => setThisPic(e.target.files[0])} ></input>
 
-async function createModel(url:string, method: "LayersModel" | "GraphModel"){ // fit model in hook myModel
-    const mod = method === "LayersModel" ? await tf.loadLayersModel(url) : await tf.loadGraphModel(url);
+async function createModel(
+    url:string, 
+    method: "LayersModel" | "GraphModel",
+    setLoadingProgress?: Function
+):Promise<tf.LayersModel | tf.GraphModel<string | tf.io.IOHandler>>{ // fit model in hook myModel
+
+    function callBackProgress(num:number){
+        !!setLoadingProgress && setLoadingProgress(num)
+    }
+    
+    const mod = method === "LayersModel" 
+    ? await tf.loadLayersModel(url,{
+        onProgress: (e) => callBackProgress(e) 
+    }) 
+    : await tf.loadGraphModel(url, {
+        onProgress: (e) => callBackProgress(e) 
+    });
+
     return mod
 }
 
@@ -30,7 +46,14 @@ async function toindexedDb(model:any, modelName:string){
 
 }
 
-async function predictResult(myModel:any, imgInputId:string, imgSize:number, subNum:number, divNum:number, labelArr:any[]){
+async function predictResult(
+    myModel:any, //tf.LayersModel | tf.GraphModel<string | tf.io.IOHandler>
+    imgInputId:string,
+    imgSize:number,
+    subNum:number,
+    divNum:number,
+    labelArr:any[]
+){
     let obj;
 
     try{
@@ -79,7 +102,14 @@ async function predictResult(myModel:any, imgInputId:string, imgSize:number, sub
 
 }
 
-async function predictResultTopFive(myModel:any, imgInputId:string, imgSize:number, subNum:number, divNum:number, labelArr:any[]){
+async function predictResultTopFive(
+    myModel:any, //tf.LayersModel | tf.GraphModel<string | tf.io.IOHandler>,
+    imgInputId:string,
+    imgSize:number,
+    subNum:number,
+    divNum:number,
+    labelArr:any[]
+){
     let obj = {} as any;
 
     try{
@@ -136,6 +166,8 @@ async function predictResultTopFive(myModel:any, imgInputId:string, imgSize:numb
         console.log(err);
     }
     finally{
+
+        console.log(obj)
         return obj;
     }
 

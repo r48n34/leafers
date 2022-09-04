@@ -142,7 +142,7 @@ function NavTop(){
         </Drawer>
 
         <Group position="right" mt={8}>
-            <UnstyledButton onClick={openSpotlight}><Search size={26} /></UnstyledButton>
+            <UnstyledButton onClick={() => openSpotlight()}><Search size={26} /></UnstyledButton>
             <Burger
                 opened={opened}
                 onClick={() => setOpened(true)}

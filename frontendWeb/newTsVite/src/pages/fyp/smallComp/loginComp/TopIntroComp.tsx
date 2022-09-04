@@ -36,8 +36,8 @@ function TopIntroComp(){
                 >
                     
                     <div style={{ marginTop: "60px", textAlign: "center" }} id="rewardIdtoLeafers">
-                        <h5 style={{ fontSize: "20px" }}> <b>{T("descriptions")}</b> </h5>
-                        <h1 style={{ fontSize: "80px" }}> <b><FaLeaf color={"#019444"} /> Leafers</b> </h1>
+                        <h5 style={{ fontSize: "20px", margin: 0 }}> <b>{T("descriptions")}</b> </h5>
+                        <h1 style={{ fontSize: "80px", color:"#019444" }}> <b><FaLeaf color={"#019444"} /> Leafers</b> </h1>
                         <TypeIt
                             options={{
                                 speed: 90,

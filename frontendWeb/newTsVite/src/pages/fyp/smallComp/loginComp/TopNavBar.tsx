@@ -83,7 +83,7 @@ function TopNavBar(){
                             </Button>
                             <LoginMenuComp />
                             <ThemeToggleBtn />
-                            <QuestionMarkBox />
+                            {/* <QuestionMarkBox /> */}
                             <ToggleLanguageBtn />
                         </Group>
                     </Grid.Col>

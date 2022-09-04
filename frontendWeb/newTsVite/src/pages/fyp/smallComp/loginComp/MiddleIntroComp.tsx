@@ -1,6 +1,5 @@
 import { Container, Grid } from "@mantine/core";
-import { Splide, SplideSlide } from '@splidejs/react-splide';
-import '@splidejs/react-splide/css';
+import { Carousel } from '@mantine/carousel';
 
 import modelData from '../../dataStorage/modelData.json'
 import homeImg1 from "../../img/homeImg1.png"
@@ -38,14 +37,29 @@ function MiddleIntroComp() {
             <div style={{ marginTop: "100px" }}>
                 <h1> {T("Currentmodel")}: </h1>
                 <br />
-
-                <Splide aria-label="My Favorite Images">
+                <Carousel
+                    sx={{ maxWidth: 320 }}
+                    mx="auto"
+                    withIndicators
+                    height={500}
+                    styles={{
+                        indicator: {
+                            width: 12,
+                            height: 4,
+                            transition: 'width 250ms ease',
+                            '&[data-active]': {
+                                width: 40,
+                            },
+                        },
+                    }}
+                >
                     {modelData && modelData.map(v => (
-                        <SplideSlide style={{ display: "flex", justifyContent: "center" }} key={v.shortTitle}>
+                        <Carousel.Slide key={v.shortTitle}>
                             <BigBox data={v} />
-                        </SplideSlide>
+                        </Carousel.Slide>
                     ))}
-                </Splide>
+
+                </Carousel>
 
             </div>
             <br /><br /><br /><br />

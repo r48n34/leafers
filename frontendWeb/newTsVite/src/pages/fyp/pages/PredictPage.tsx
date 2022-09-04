@@ -1,4 +1,5 @@
-import { Card, Container, Button, Grid, UnstyledButton, Space  } from '@mantine/core';
+import { Card, Container, Button, Grid, UnstyledButton, Space, Group  } from '@mantine/core';
+import * as tf from '@tensorflow/tfjs';
 
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
@@ -7,15 +8,17 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../store';
 import { FileUploader } from "react-drag-drop-files";
 
+import { Search } from 'tabler-icons-react';
+
 import { motion } from 'framer-motion';
 import { FiArrowLeft } from "react-icons/fi";
 import { ZoomQuestion } from 'tabler-icons-react';
 
-import { createModel, predictResultTopFive } from '../utility/predictUtili'
+import { createModel, predictResultTopFive, timer } from '../utility/predictUtili'
 import { checkModelExist } from '../utility/indexdbUtili'
 import { addCollectionsTwoLayerNoSecDoc } from '../services/firebaseUse'
 
-import { labelSearchModel } from "../smallComp/LabelSearchModel";
+import SearchLabelDetails from "../smallComp/LabelSearchModel";
 
 import modelData from '../dataStorage/modelData.json'
 import full from '../img/full.jpg';
@@ -33,6 +36,25 @@ import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
 
 import { useT } from "talkr";
+import LoadingModal from '../smallComp/predictComp/LoadingModal';
+
+export interface TopItem {
+    label: string;
+    confident: string | number;
+}
+
+export interface MessageObject {
+    status: boolean;
+    top1?: TopItem;
+    top2?: TopItem;
+    top3?: TopItem;
+    top4?: TopItem;
+    top5?: TopItem;
+    object?: string;
+    confident?: string;
+    timeTaken?: string;
+    timeTakenOffset?: string;
+}
 
 let modelIndex:number | string;
 
@@ -40,12 +62,14 @@ function PredictPage(){
     
     const { T } = useT();
 
-    const [preview, setPreview] = useState<any>(full); // img path
-    const [myModel, setMyModel] = useState<any>(); // model container
+    const [preview, setPreview] = useState<string>(full); // img path
+    const [myModel, setMyModel] = useState<tf.LayersModel | tf.GraphModel<string | tf.io.IOHandler>>(); // model container
     const [myModelInfo, setMyModelInfo] = useState<modelDataInterface>(dummyData); // model info
 
+    const [loadingProgress, setLoadingProgress] = useState<number>(0); // model info
+
     const [loadingPredict, setloadingPredict] = useState<boolean>(false); // is model predicting
-    const [message, setMessage] = useState<any>( {status:true} ); // message container
+    const [message, setMessage] = useState<MessageObject>( {status:true} ); // message container
 
     const userInfo = useSelector( (state:RootState) => state.counter.userData); 
     const userSetting = useSelector( (state:RootState) => state.counter.userSetting); 
@@ -66,6 +90,10 @@ function PredictPage(){
     },[offModelData])
 
     useEffect(() => {
+        console.log(loadingProgress)
+    }, [loadingProgress]);
+
+    useEffect(() => {
         (async () => {
 
             document.title = "Leafers - Predict"
@@ -77,32 +105,21 @@ function PredictPage(){
                 return;
             }
 
-            MySwal.fire({
-                title: T("Loading") as string,
-                html: T("Waitingload") as string,
-                timerProgressBar: true,
-                allowEscapeKey: false,
-                showCloseButton: false,
-                showCancelButton: false,
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading()
-                }
-            })
-
             const modelName = modelData[modelIndex].shortTitle
             const isExisting = await checkModelExist(modelName);
 
             setMyModelInfo(modelData[modelIndex]);
 
             let url = isExisting ? ('indexeddb://' + modelName) : modelData[modelIndex].modelapiPath;
-            setIsCurrentModelDownloaded(isExisting);
 
+            setIsCurrentModelDownloaded(isExisting);
             initModel(url);
+
             async function initModel(url:string){
-                let mod = await createModel(url, "GraphModel");
-                MySwal.close();
+                let mod = await createModel(url, "GraphModel", setLoadingProgress);
+                if(isExisting){
+                    setLoadingProgress(1)
+                }
                 setMyModel(mod); 
             }
 
@@ -120,6 +137,7 @@ function PredictPage(){
             }
 
             setloadingPredict(true);
+            
             setMessage({
                 status: true,
                 top1: { label: "", confident: "" },
@@ -172,8 +190,8 @@ function PredictPage(){
                 autoClose: 3000,
             });
 
-            console.log(+res.top1.confident * 100);
-            console.log(parseInt(res.top1.confident));
+            // console.log(+res.top1.confident * 100);
+            // console.log(parseInt(res.top1.confident));
 
             if(+res.top1.confident * 100 < myModelInfo.defaultThreshold){
                 showNotification({
@@ -185,15 +203,15 @@ function PredictPage(){
                 })
             }
 
-            setloadingPredict(false);
             setMessage(res);
+            setloadingPredict(false);
 
         })();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [preview]);
 
-    const handleInputImages = (file:any) => {
+    const handleInputImages = (file:Blob | MediaSource) => {
         if(!file){
             return
         }
@@ -203,6 +221,7 @@ function PredictPage(){
 
     return(
         <>
+        <LoadingModal loadingProgress={loadingProgress}/>
         <motion.div
             initial={{ x: 600, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -225,29 +244,36 @@ function PredictPage(){
                     <Grid.Col md={12} lg={6} mb={4}>
 
                         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.8 }} >
-                            <img id="img" src={preview} style={{ width:"50%", height:"auto" }} alt="pics"/>
+                            <img id="img" src={preview as string} style={{ width:"50%", height:"auto" }} alt="pics"/>
                         </motion.div>
                         <br></br>
 
                         <label><h3>{T("Selectimage")}: </h3></label>{" "}
                         <div style={{ display:"flex", justifyContent:"center" }}>
-                            <FileUploader handleChange={handleInputImages} name="file" types={["JPG", "PNG"]} />
+                            <FileUploader handleChange={handleInputImages} name="file" types={["JPG", "PNG", "JPEG"]} />
                         </div>
                     </Grid.Col>
 
                     <Grid.Col md={12} lg={6}>           
                     <Card shadow="lg" className="mb-2" style={{ borderRadius:"20px", textAlign:"center"}}>     
+                        {/* <h1>{T("Informations")}</h1> */}
                         
-                        <h1>{T("Informations")}</h1>
-
-                        { isCurrentModelDownloaded ? 
-                            <DeleteModelBtn modelName={myModelInfo.shortTitle}/> :
-                            <SaveModelBtn myModel={myModel} shortTitle={myModelInfo.shortTitle}/> 
-                        }
                         {"  "}
-                        <Button color="gray" onClick={async() => labelSearchModel(myModelInfo.labels) }> {T("Knowmore")} </Button> 
+
+                        { message.status 
+                            ? <div><ModelResultBox message={message} isLoading={loadingPredict} /></div> 
+                            : <h1>{T("Invalidinput")}.</h1>
+                        }
+
                         <Space h="lg"/>
-                        { message.status ? <div><ModelResultBox message={message} /></div> : <h1>{T("Invalidinput")}.</h1>}
+                        <Group position='right'>
+                            { isCurrentModelDownloaded ? 
+                                <DeleteModelBtn modelName={myModelInfo.shortTitle}/> :
+                                <SaveModelBtn myModel={myModel} shortTitle={myModelInfo.shortTitle}/> 
+                            }
+
+                            <SearchLabelDetails labelsArr={myModelInfo.labels}/>
+                        </Group>
                         
                         <br/>
          

@@ -1,65 +1,96 @@
-import { Input } from '@mantine/core';
+import { Button, Group, TextInput, Modal, Input } from '@mantine/core';
+import { useEffect, useState } from 'react';
+import { useT } from "talkr";
 
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
-const SwalSearch = withReactContent(Swal)
+import { Search } from 'tabler-icons-react';
+import DataTable from 'react-data-table-component';
 
-function LabelListComp({ data }:{ data:string[] }):any{
-
-    if(!data || data.length === 0){
-        return (<h3>none</h3>)
+const columns = [
+    {
+        name: 'labels',
+        selector: (row:any) => row.labels,
+    },
+    {
+        name: 'Search url',
+        selector: (row:any) => (
+            <Button 
+                onClick={ () => {
+                    let scarchStr = row.labels.split(" ").join("+");
+                    window.open("http://www.google.com/search?q=" + scarchStr, '_blank');
+                }}
+            >
+                Know more
+            </Button>
+        ),
     }
+]
 
-    return data.map( (v,i) => {
-        let scarchStr = v.split(" ").join("+");
-        return(
-            <div key={i+v}>
-                <a href={"http://www.google.com/search?q=" + scarchStr} target="_blank" rel="noreferrer"> 
-                <h4 >{i+1}: {v}</h4>
-                </a>
-            </div>
-        )
-    })     
-}
-
-function searchBarfiler(strVal:string, labelsArr:string[]){
-
-    if(!strVal){
-        return;
-    }
-
-    let a = labelsArr.filter( (v:string) => v.toLowerCase().includes( strVal.toLowerCase() ) );
-    //console.log(a);
-    
-    SwalSearch.fire({
-        title: 'Search result',
-        allowEnterKey: false,
-        allowEscapeKey: true,
-        showCloseButton: true,
-        confirmButtonText: 'back',
-        html: <LabelListComp data={a}/>, 
-    }).then(() => {
-        labelSearchModel(labelsArr);
-    });
-
-}
-
-function labelSearchModel( labelsArr:any[] ){
-    SwalSearch.fire({
-        showCloseButton: true,
-        html:
-        <div>
-            <h3><b>Details</b></h3>
-            
-            <Input type="text" placeholder="Search" className="mb-2" 
-                onKeyDown={(e:any) => { (e.keyCode === 13) && (searchBarfiler(e.target.value, labelsArr)) }}
-            />
-            
-            <LabelListComp data={labelsArr}/>
-            {/* <LabelListComp data={myModelInfo.labels}/> */}
-        </div>
+function stringArrayToDisplayArr(arr:string[]){
+    return arr.map( v => {
+        return {
+            labels: v
+        }
     })
-         
 }
 
-export { labelSearchModel }
+interface DisplayArr {
+    labels: string
+}
+
+function SearchLabelDetails({ labelsArr }:{ labelsArr:string[] }){
+    const { T } = useT();
+
+    const [ opened, setOpened ] = useState(false);
+    const [ searchString, setSearchString ] = useState<string>("");
+
+    const [ displayArr, setDisplayArr ] = useState<DisplayArr[]>([]);
+
+    useEffect(() => {
+        setDisplayArr( stringArrayToDisplayArr(labelsArr) )
+    }, [labelsArr]);
+
+    useEffect(() => {
+
+        if(searchString === ""){
+            setDisplayArr( stringArrayToDisplayArr(labelsArr) )
+            return
+        }
+
+        const finalArr = labelsArr.filter( v => v.toLowerCase().includes( searchString.toLowerCase() ));
+        setDisplayArr( stringArrayToDisplayArr(finalArr) )
+
+    }, [searchString]);
+
+    return(
+        <>
+        <Modal
+            opened={opened}
+            onClose={() => setOpened(false)}
+            title={T("Knowmore")}
+            size="55%"
+        >
+            <TextInput
+                icon={<Search size={20}/>}
+                placeholder="Search"
+                value={searchString}
+                onChange={(event) => setSearchString(event.currentTarget.value)}
+            />
+
+            <DataTable
+                pagination
+                columns={columns}
+                data={displayArr}
+            />
+        </Modal>
+
+        <Group position="center">
+            <Button leftIcon={<Search size={20}/>} color="gray" onClick={() => setOpened(true)}>{T("Knowmore")}</Button>
+        </Group>
+        </>
+    )
+
+
+}
+
+// export { labelSearchModel }
+export default SearchLabelDetails
