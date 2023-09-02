@@ -1,6 +1,7 @@
-const serverUrl = "https://fypflowerpredict.azurewebsites.net/api/";
+const serverUrl = "https://flowersapinew.azurewebsites.net/api/";
+// const serverCode = "wiVnASAb_nUP3PVfcVE0zfmDtLy2KkxxOn8Cza3lC8tJAzFuzGFfew%3D%3D";
 
-interface FetchServerObject {
+export interface FetchServerObject {
     name: string;
     code: string;
     query: any[];
@@ -8,24 +9,35 @@ interface FetchServerObject {
     body: any[];
 }
 
-const funcObj = [
+export const serverData = {
+    serverUrl: "https://flowersapinew.azurewebsites.net/api/",
+    serverCode: "jOahjXeC0i0K9fi7Phj5iPunKeury9u-sEJRNltk3Fk1AzFu2VZT0A==",
+}
+
+export const funcObj = [
     {
-        name: "modelDataReturn",
-        code: "7yWafRksScQHwoYS7sy3OeAx7vIwgI2hsahJ5fQTG3nggnMKkdpbBQ==",
+        name: "modeldatareturn",
         query: [],
         params: [],
         body: [],
-    }
+    },
+    {
+        name: "flowerPredictBlob",
+        query: [],
+        params: [],
+        body: [],
+    },
+
 ]
 
-function fetchUrlCombine(obj:FetchServerObject){
-    let baseLink = `${serverUrl}${obj.name}?code=${obj.code}`;
+function fetchUrlCombine(apiName: string){
+    let baseLink = `${serverUrl}${apiName}?code=${serverData.serverCode}`;
     return baseLink;
 }
 
 async function LabelSearchModelFetch(){
     try{
-        let req = await fetch( fetchUrlCombine(funcObj[0]) );
+        let req = await fetch( fetchUrlCombine(funcObj[0].name) );
         let result = await req.json();
     
         return result;

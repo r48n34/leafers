@@ -10,7 +10,7 @@ import { useHotkeys, useLocalStorage } from '@mantine/hooks';
 
 import { ModalsProvider } from '@mantine/modals';
 import { NotificationsProvider } from '@mantine/notifications';
-import { ParallaxProvider } from 'react-scroll-parallax';
+// import { ParallaxProvider } from 'react-scroll-parallax';
 
 import LoadingPage from "./pages/fyp/smallComp/LoadingPage";
 
@@ -18,12 +18,14 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
+import { AppDispatch } from "./pages/fyp/store";
+
 const LoginPage = lazy(() => import('./pages/fyp/pages/LoginPage') );
 const SelectModel = lazy(() => import('./pages/fyp/pages/SelectModel') );
 const PredictPage = lazy(() => import('./pages/fyp/pages/PredictPage') );
 const HistoryPage = lazy(() => import('./pages/fyp/pages/HistoryPage') );
 const SettingPage = lazy(() => import('./pages/fyp/pages/SettingPage') );
-const LearnMorePage = lazy(() => import('./pages/fyp/pages/LearnMorePage') );
+// const LearnMorePage = lazy(() => import('./pages/fyp/pages/LearnMorePage') );
 
 const ApiUsePredictPage = lazy(() => import('./pages/fyp/pages/ApiUsePredictPage') );
 const NavTop = lazy(() => import('./pages/fyp/smallComp/NavTop') );
@@ -40,11 +42,11 @@ function App() {
     ['mod+J', () => toggleColorScheme()]
   ]);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const location = useLocation();
 
   useEffect( () => {
-    dispatch( setInitOffModelData() as any )
+    dispatch( setInitOffModelData() )
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
@@ -54,13 +56,13 @@ function App() {
     <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
     <ModalsProvider>
     <NotificationsProvider>
-      <ParallaxProvider>
+      {/* <ParallaxProvider> */}
       <Suspense fallback={<LoadingPage/>}>
       <AnimatePresence exitBeforeEnter initial={false}>
         <Routes location={location} key={location.pathname}>
 
           <Route path="/" element={ <LoginPage /> }/>
-          <Route path="/LearnMore" element={ <LearnMorePage /> }/>
+          {/* <Route path="/LearnMore" element={ <LearnMorePage /> }/> */}
 
           <Route path="/fyp" element={<NavTop/>}>
             <Route path="select" element={<SelectModel/>}/>
@@ -75,7 +77,7 @@ function App() {
         </Routes>
       </AnimatePresence>  
       </Suspense>
-      </ParallaxProvider>
+      {/* </ParallaxProvider> */}
     </NotificationsProvider>
     </ModalsProvider>
     </MantineProvider>

@@ -1,18 +1,22 @@
-import { Button, Group, TextInput, Modal, Input } from '@mantine/core';
+import { Button, Group, TextInput, Modal } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { useT } from "talkr";
 
 import { Search } from 'tabler-icons-react';
 import DataTable from 'react-data-table-component';
 
+interface DisplayArr {
+    labels: string
+}
+
 const columns = [
     {
         name: 'labels',
-        selector: (row:any) => row.labels,
+        selector: (row:DisplayArr) => row.labels,
     },
     {
         name: 'Search url',
-        selector: (row:any) => (
+        selector: (row:DisplayArr) => (
             <Button 
                 onClick={ () => {
                     let scarchStr = row.labels.split(" ").join("+");
@@ -25,24 +29,17 @@ const columns = [
     }
 ]
 
-function stringArrayToDisplayArr(arr:string[]){
-    return arr.map( v => {
-        return {
-            labels: v
-        }
-    })
-}
-
-interface DisplayArr {
-    labels: string
+function stringArrayToDisplayArr(arr: string[]){
+    return arr.map( v => ({
+        labels: v
+    }))
 }
 
 function SearchLabelDetails({ labelsArr }:{ labelsArr:string[] }){
     const { T } = useT();
 
-    const [ opened, setOpened ] = useState(false);
+    const [ opened, setOpened ] = useState<boolean>(false);
     const [ searchString, setSearchString ] = useState<string>("");
-
     const [ displayArr, setDisplayArr ] = useState<DisplayArr[]>([]);
 
     useEffect(() => {
@@ -78,7 +75,7 @@ function SearchLabelDetails({ labelsArr }:{ labelsArr:string[] }){
 
             <DataTable
                 pagination
-                columns={columns}
+                columns={columns as any}
                 data={displayArr}
             />
         </Modal>
@@ -92,5 +89,4 @@ function SearchLabelDetails({ labelsArr }:{ labelsArr:string[] }){
 
 }
 
-// export { labelSearchModel }
 export default SearchLabelDetails

@@ -4,16 +4,18 @@ import 'firebase/compat/firestore';
 
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-const MySwalServices = withReactContent(Swal)
+import { CreateAtObj } from '../interface/data/modelDataInterface';
+
+const MySwalServices = withReactContent(Swal);
 
 const firebaseConfig = {
-    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDERID,
-    appId: process.env.REACT_APP_FIREBASE_APP_ID,
-    measurementId: process.env.REACT_APP_FIREBASE_MEASURTMENT_ID
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "",
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "",
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "",
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "",
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDERID || "",
+    appId: import.meta.env.VITE_FIREBASE_APP_ID || "",
+    measurementId: import.meta.env.VITE_FIREBASE_MEASURTMENT_ID || ""
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -26,10 +28,11 @@ const db = firebase.firestore();
 
 provider.setCustomParameters({ prompt: 'select_account' });
 
+type ReturnVal = {} & ({ status: true, data: any } | { status: false })
+
 async function signInWithGoogle(){
-    auth
-    .signInWithPopup(provider)
-    .catch((error) => {
+    auth.signInWithPopup(provider)
+    .catch((error: Error) => {
         MySwalServices.fire({
             icon: 'error',
             title: 'Error',
@@ -41,22 +44,8 @@ async function signInWithGoogle(){
 }
 
 async function signInWithGithub(){
-    auth
-    .signInWithPopup(providerGithub)
-    .catch((error:any) => {
-        MySwalServices.fire({
-            icon: 'error',
-            title: 'Error',
-            text: error.message,
-            showConfirmButton: true,
-            backdrop: true
-        });
-    });
-}
-async function signInWithFacebook(){
-    auth
-    .signInWithPopup(providerFacebook)
-    .catch((error:any) => {
+    auth.signInWithPopup(providerGithub)
+    .catch((error: Error) => {
         MySwalServices.fire({
             icon: 'error',
             title: 'Error',
@@ -67,10 +56,23 @@ async function signInWithFacebook(){
     });
 }
 
-const signOutAcc = () => auth.signOut().catch(function (error){console.error(error);});
+async function signInWithFacebook(){
+    auth.signInWithPopup(providerFacebook)
+    .catch((error: Error) => {
+        MySwalServices.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.message,
+            showConfirmButton: true,
+            backdrop: true
+        });
+    });
+}
+
+const signOutAcc = () => auth.signOut().catch( (error) => console.error(error) );
 
 async function checkLogin(){
-    return new Promise( async (rec,rej) => {
+    return new Promise( async (rec) => {
         firebase.auth().onAuthStateChanged( (user) => {
             rec(user ? user : false)       
         })
@@ -79,8 +81,12 @@ async function checkLogin(){
 }
 
 //const googleProvider = new firebase.auth.GoogleAuthProvider();
-async function addCollectionsOneLayer(collectionsName:string, docName:string, obj:any){
-    return new Promise( (rec,rej) => {
+async function addCollectionsOneLayer(
+    collectionsName:string,
+    docName:string,
+    obj: object
+){
+    return new Promise( (rec) => {
 
         db.collection(collectionsName)
         .doc(docName)
@@ -96,8 +102,14 @@ async function addCollectionsOneLayer(collectionsName:string, docName:string, ob
     });
 }
 
-async function addCollectionsTwoLayer(collectionsName1:string, docName1:string, collectionsName2:string, docName2:string, obj:any){
-    return new Promise( (rec,rej) =>{
+async function addCollectionsTwoLayer(
+    collectionsName1: string,
+    docName1: string,
+    collectionsName2: string,
+    docName2: string,
+    obj: object
+){
+    return new Promise( (rec) => {
 
         db.collection(collectionsName1)
         .doc(docName1)
@@ -115,8 +127,13 @@ async function addCollectionsTwoLayer(collectionsName1:string, docName1:string, 
     });
 }
 
-async function addCollectionsTwoLayerNoSecDoc(collectionsName1:string, docName1:string, collectionsName2:string, obj:any){
-    return new Promise( (rec,rej) =>{
+async function addCollectionsTwoLayerNoSecDoc (
+    collectionsName1: string,
+    docName1: string,
+    collectionsName2: string,
+    obj: object
+){
+    return new Promise( (rec) => {
 
         db.collection(collectionsName1)
         .doc(docName1)
@@ -136,23 +153,29 @@ async function addCollectionsTwoLayerNoSecDoc(collectionsName1:string, docName1:
 
 const maxGetObjectCount = 5;
 
-async function getTwoLayerCollections(collectionName1:string, docName:string, collectionName2:string){
+async function getTwoLayerCollections(
+    collectionName1: string,
+    docName: string,
+    collectionName2: string
+): Promise<ReturnVal>{
     
-
-    return new Promise(async (rec, rej) =>{
+    return new Promise(async (rec) => {
 
         try{
+
             let docRef = await db.collection(collectionName1)
-            .doc(docName)
-            .collection(collectionName2)
-            .orderBy("createAt", "desc")
-            .limit(maxGetObjectCount)
-            .get();
+                .doc(docName)
+                .collection(collectionName2)
+                .orderBy("createAt", "desc")
+                .limit(maxGetObjectCount)
+                .get();
             
             let arr = docRef.docs.map(doc => doc.data());
 
-            rec({ status: true, data: arr });
-
+            rec({ 
+                status: true,
+                data: arr
+            });
         }
         catch(e){
             console.log(e);
@@ -163,9 +186,16 @@ async function getTwoLayerCollections(collectionName1:string, docName:string, co
 
 }
 
-async function getTwoLayerCollectionsContinue(collectionName1:string, docName:string, collectionName2:string, lastVisible:string){
+
+
+async function getTwoLayerCollectionsContinue(
+    collectionName1:string,
+    docName:string,
+    collectionName2:string,
+    lastVisible: CreateAtObj
+): Promise<ReturnVal>{
     //.orderBy("createAt").limit(3)
-    return new Promise(async (rec, rej) =>{
+    return new Promise(async (rec) => {
 
         try{
             let docRef = await db.collection(collectionName1)
@@ -178,20 +208,23 @@ async function getTwoLayerCollectionsContinue(collectionName1:string, docName:st
 
             let arr = docRef.docs.map(doc => doc.data());
 
-            rec({ status: true, data: arr });
+            rec({ 
+                status: true,
+                data: arr
+            });
 
         }
-        catch(e){
+        catch(e) {
             console.log(e);
-            rec({status: false});
+            rec({ status: false });
         }      
       
     })
 
 }
 
-async function userdataCheck(userId:string){
-    return new Promise(async (rec, rej) =>{
+async function userdataCheck(userId: string): Promise<ReturnVal>{
+    return new Promise(async (rec) => {
 
         try{
             let docRef = await db.collection("users")
@@ -207,29 +240,30 @@ async function userdataCheck(userId:string){
         }
         catch(e){
             console.log(e);
-            rec({status: false});
+            rec({ status: false });
         }      
       
     })
 
 }
 
-async function updateSpecificUserSetting(userId:string, singleObj:any){
-    return new Promise(async (rec, rej) =>{
+async function updateSpecificUserSetting(userId: string, singleObj: object){
+    return new Promise(async (rec) => {
 
         try{
             //let docRef = await db.collection(userId).doc("userSetting").collection("currentConfig").get();
-            let docRef = db.collection("users").doc(userId).collection("userSetting").doc("currentConfig");
+            let docRef = db.collection("users")
+                .doc(userId)
+                .collection("userSetting")
+                .doc("currentConfig");
+                
             await docRef.update(singleObj);
 
-            //let arr = docRef.exists ? docRef.data() : [];
-
             rec({ status: true });
-
         }
         catch(e){
             console.log(e);
-            rec({status: false});
+            rec({ status: false });
         }      
       
     })

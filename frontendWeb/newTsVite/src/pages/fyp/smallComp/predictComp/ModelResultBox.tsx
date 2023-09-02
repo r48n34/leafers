@@ -1,5 +1,4 @@
-import { Paper, Grid, Group, RingProgress, Center, Text, Space, Button, UnstyledButton, Skeleton } from "@mantine/core";
-import { ChartInfographic } from 'tabler-icons-react';
+import { Paper, Grid, Group, RingProgress, Center, Text, Space, UnstyledButton, Skeleton } from "@mantine/core";
 import { MessageObject } from "../../pages/PredictPage";
 
 function ModelResultBox({ message, isLoading = false }: { message: MessageObject, isLoading: boolean }): any {

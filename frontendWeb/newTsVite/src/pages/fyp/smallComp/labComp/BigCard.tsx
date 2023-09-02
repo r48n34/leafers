@@ -1,7 +1,5 @@
 import { useNavigate } from "react-router-dom";
-// import { Card } from "react-bootstrap";
 import { Card } from '@mantine/core';
-
 
 interface BigCardDataInterface {
     title: string;
@@ -22,17 +20,18 @@ function BigCard({ data }:{ data:BigCardDataInterface }){
 
     return(
         <Card shadow="lg" style={{ height: '85vh' }} className="mb-3" onClick={() => navigate(data.gotoPath)} >
-        {/* <Card.Body className="d-flex align-items-end"> */}
-            <div>
+        <div>
+        
+            <Card.Section>
+                { data.title }
+            </Card.Section>
             
-            <Card.Section> { data.title } </Card.Section>
             <hr/>
             <Card.Section>
                 {data.subTitle}
             </Card.Section>
             
-            </div>
-        {/* </Card.Body> */}
+        </div>
         </Card>
     )
 }

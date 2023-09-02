@@ -43,8 +43,10 @@ function SelectModel() {
         })
     }
 
-    function ModelBox(): any {
-        return modelList.map((v, index) => (
+    function ModelBox() {
+        return (
+            <>
+            { modelList.map((v, index) => (
             <Grid.Col md={6} xl={4} key={"mdList" + index} className="mb-3" >
                 <Card
                     onClick={async () => {
@@ -76,7 +78,9 @@ function SelectModel() {
                     </Card.Section>
 
                 </Card>
-            </Grid.Col>)
+            </Grid.Col>
+            ))}
+            </>
         )
     }
 

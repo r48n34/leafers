@@ -1,9 +1,9 @@
+import { useEffect } from "react";
+import Headroom from "react-headroom"
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { Container, Grid, Button, Group, UnstyledButton } from "@mantine/core";
-
-import Headroom from "react-headroom"
 
 import { FaLeaf } from "react-icons/fa";
 import { FcReadingEbook } from "react-icons/fc";
@@ -12,14 +12,13 @@ import { setGuestBool } from "../../counterSlice";
 
 import ThemeToggleBtn from "../grandComp/ThemeToggleBtn";
 import LoginMenuComp from "./support/LoginMenuComp";
-import QuestionMarkBox from "./support/QuestionMarkBox";
-import { useEffect } from "react";
+import ToggleLanguageBtn from "./support/ToggleLanguageBtn";
 
 import firebase from "firebase/compat/app";
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import ToggleLanguageBtn from "./support/ToggleLanguageBtn";
+
 import { useT } from "talkr";
 const MySwalLogin = withReactContent(Swal)
 
@@ -83,7 +82,6 @@ function TopNavBar(){
                             </Button>
                             <LoginMenuComp />
                             <ThemeToggleBtn />
-                            {/* <QuestionMarkBox /> */}
                             <ToggleLanguageBtn />
                         </Group>
                     </Grid.Col>

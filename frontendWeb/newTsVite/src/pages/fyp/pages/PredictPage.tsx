@@ -1,4 +1,4 @@
-import { Card, Container, Button, Grid, UnstyledButton, Space, Group  } from '@mantine/core';
+import { Card, Container, Grid, UnstyledButton, Space, Group } from '@mantine/core';
 import * as tf from '@tensorflow/tfjs';
 
 import { useState, useEffect } from 'react';
@@ -8,13 +8,13 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../store';
 import { FileUploader } from "react-drag-drop-files";
 
-import { Search } from 'tabler-icons-react';
+// import { Search } from 'tabler-icons-react';
 
 import { motion } from 'framer-motion';
 import { FiArrowLeft } from "react-icons/fi";
 import { ZoomQuestion } from 'tabler-icons-react';
 
-import { createModel, predictResultTopFive, timer } from '../utility/predictUtili'
+import { createModel, predictResultTopFive } from '../utility/predictUtili'
 import { checkModelExist } from '../utility/indexdbUtili'
 import { addCollectionsTwoLayerNoSecDoc } from '../services/firebaseUse'
 
@@ -27,13 +27,13 @@ import ModelResultBox from '../smallComp/predictComp/ModelResultBox'
 import DeleteModelBtn from '../smallComp/predictComp/DeleteModelBtn'
 import SaveModelBtn from '../smallComp/predictComp/SaveModelBtn'
 
-import { dummyData, modelDataInterface } from "../interface/data/modelDataInterface";
+import { dummyData, ModelDataInterface } from "../interface/data/modelDataInterface";
 
 import { showNotification, updateNotification } from '@mantine/notifications';
 
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
-const MySwal = withReactContent(Swal)
+// import Swal from 'sweetalert2'
+// import withReactContent from 'sweetalert2-react-content'
+// const MySwal = withReactContent(Swal)
 
 import { useT } from "talkr";
 import LoadingModal from '../smallComp/predictComp/LoadingModal';
@@ -63,8 +63,8 @@ function PredictPage(){
     const { T } = useT();
 
     const [preview, setPreview] = useState<string>(full); // img path
-    const [myModel, setMyModel] = useState<tf.LayersModel | tf.GraphModel<string | tf.io.IOHandler>>(); // model container
-    const [myModelInfo, setMyModelInfo] = useState<modelDataInterface>(dummyData); // model info
+    const [myModel, setMyModel] = useState<tf.GraphModel<string | tf.io.IOHandler>>(); // model container
+    const [myModelInfo, setMyModelInfo] = useState<ModelDataInterface>(dummyData); // model info
 
     const [loadingProgress, setLoadingProgress] = useState<number>(0); // model info
 
@@ -83,7 +83,7 @@ function PredictPage(){
 
     useEffect( () => {
    
-        let isOff = offModelData.filter( (v:modelDataInterface) => v.modeltitle === myModelInfo.modeltitle);
+        let isOff = offModelData.filter( (v: ModelDataInterface) => v.modeltitle === myModelInfo.modeltitle);
         setIsCurrentModelDownloaded( isOff.length >= 1 );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,7 +98,7 @@ function PredictPage(){
 
             document.title = "Leafers - Predict"
 
-            const nameList = modelData.map( (v:modelDataInterface) => v.shortTitle);
+            const nameList = modelData.map( (v: ModelDataInterface) => v.shortTitle);
             modelIndex = nameList.indexOf(mdName || "");
 
             if(modelIndex < 0){
@@ -110,17 +110,19 @@ function PredictPage(){
 
             setMyModelInfo(modelData[modelIndex]);
 
-            let url = isExisting ? ('indexeddb://' + modelName) : modelData[modelIndex].modelapiPath;
+            const url = isExisting ? ('indexeddb://' + modelName) : modelData[modelIndex].modelapiPath;
 
             setIsCurrentModelDownloaded(isExisting);
             initModel(url);
 
             async function initModel(url:string){
                 let mod = await createModel(url, "GraphModel", setLoadingProgress);
+
                 if(isExisting){
                     setLoadingProgress(1)
                 }
-                setMyModel(mod); 
+
+                setMyModel(mod as tf.GraphModel<string | tf.io.IOHandler>); 
             }
 
         })();
@@ -161,7 +163,7 @@ function PredictPage(){
             })
 
             let res = await predictResultTopFive(
-                myModel,
+                myModel as tf.GraphModel<string | tf.io.IOHandler>,
                 "img",
                 myModelInfo.offlineInfo.size,
                 myModelInfo.offlineInfo.subVal,
@@ -269,7 +271,7 @@ function PredictPage(){
                         <Group position='right'>
                             { isCurrentModelDownloaded ? 
                                 <DeleteModelBtn modelName={myModelInfo.shortTitle}/> :
-                                <SaveModelBtn myModel={myModel} shortTitle={myModelInfo.shortTitle}/> 
+                                <SaveModelBtn myModel={myModel as tf.GraphModel<string | tf.io.IOHandler>} shortTitle={myModelInfo.shortTitle}/> 
                             }
 
                             <SearchLabelDetails labelsArr={myModelInfo.labels}/>

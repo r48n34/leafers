@@ -1,4 +1,4 @@
-export interface modelDataInterface {
+export interface ModelDataInterface {
     modeltitle: string;
     shortTitle: string;
     modeltype: string;
@@ -24,7 +24,7 @@ interface OfflineInfo {
     modelFunctionId: number;
 }
 
-export const dummyData:modelDataInterface = {
+export const dummyData: ModelDataInterface = {
 
     "modeltitle":"",
     "shortTitle":"",
@@ -48,3 +48,31 @@ export const dummyData:modelDataInterface = {
         "modelFunctionId" : -1
     }
 }
+
+
+export interface CreateAtObj {
+    seconds: number
+    nanoseconds: number
+}
+
+export interface HistoryData {
+    confident: number | string
+    createAt: CreateAtObj
+    item: string
+    modelName: string
+    modelapiPath: string
+}
+
+export interface UserDataInterface {
+    uid: string,
+    displayName: string,
+    email: string,
+    photoURL: string,
+    creationTime: string | Date,
+    lastSignInTime: string | Date
+}
+
+export interface UserSettingInterface {
+    uploadHist: boolean
+}
+

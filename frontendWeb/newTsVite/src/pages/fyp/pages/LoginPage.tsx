@@ -11,7 +11,7 @@ import MiddleIntroComp from '../smallComp/loginComp/MiddleIntroComp';
 import FooterComp from '../smallComp/loginComp/FooterComp';
 import BottomNavComp from '../smallComp/loginComp/BottomNavComp';
 
-function LoginPage():any {
+function LoginPage() {
 
     let navigate = useNavigate();
     const [searchParams] = useSearchParams();

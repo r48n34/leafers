@@ -8,37 +8,39 @@ import { getTwoLayerCollections, getTwoLayerCollectionsContinue } from '../servi
 import { motion } from 'framer-motion';
 import { RootState } from '../store';
 import { useT } from 'talkr';
+import { HistoryData } from '../interface/data/modelDataInterface';
 
-const topConfidSort = (rowA:any, rowB:any) => {
+
+const topConfidSort = (rowA: HistoryData, rowB: HistoryData) => {
     const a = typeof rowA.confident !== "number" ? parseInt(rowA.confident.replaceAll('%', '')) : rowA.confident;
     const b = typeof rowB.confident !== "number" ? parseInt(rowB.confident.replaceAll('%', '')) : rowB.confident;
     return a - b;
 };
 
-const dateSort = (rowA:any, rowB:any) => {
+const dateSort = (rowA: HistoryData, rowB: HistoryData) => {
     return rowA.createAt.seconds - rowB.createAt.seconds;
 };
 
 const columns = [
     {
         name: "Model Name",
-        selector: (row:any) => row.modelName,
+        selector: (row: HistoryData) => row.modelName,
         sortable: true,
     },
     {
         name: "Item",
-        selector: (row:any) => row.item,
+        selector: (row: HistoryData) => row.item,
         sortable: true,
     },
     {
         name: "Top Confident",
-        selector: (row:any) => typeof row.confident === "number" ? row.confident.toFixed(2) + "%" : row.confident,
+        selector: (row: HistoryData) => typeof row.confident === "number" ? row.confident.toFixed(2) + "%" : row.confident,
         sortable: true,
         sortFunction: topConfidSort
     },
     {
         name: "Date",
-        selector: (row:any) => new Date( row.createAt.seconds * 1000 ).toString().slice(0,24),
+        selector: (row: HistoryData) => new Date( row.createAt.seconds * 1000 ).toString().slice(0,24),
         sortable: true,
         sortFunction: dateSort
     },
@@ -46,9 +48,9 @@ const columns = [
 
 function HistoryPage(){
     const { T } = useT();
-    const [ tableData, setTableData ] = useState<any>([]);
+    const [ tableData, setTableData ] = useState<HistoryData[]>([]);
     const [ maxHistoryFetched, setMaxHistoryFetched ] = useState<boolean>(false);
-    const countModel = useSelector( (state:RootState) => state.counter.userData);
+    const countModel = useSelector( (state:RootState) => state.counter.userData );
 
     useEffect( () => {
 
@@ -83,14 +85,19 @@ function HistoryPage(){
         }
 
 
-        let result:any = await getTwoLayerCollectionsContinue("users", countModel.uid, "predictHistory", lastOne.createAt);
+        let result = await getTwoLayerCollectionsContinue(
+            "users",
+            countModel.uid,
+            "predictHistory",
+            lastOne.createAt
+        );
 
-        if(result.data.length === 0){
+        if(result.status && result.data.length === 0){
             setMaxHistoryFetched(true);
             return;
         }
 
-        setTableData([...tableData, ...result.data]);
+        result.status && setTableData([...tableData, ...result.data ]);
     }
 
     return(

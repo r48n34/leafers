@@ -1,21 +1,21 @@
+import * as tf from '@tensorflow/tfjs';
 import { Button } from '@mantine/core';
-
 import { useDispatch } from 'react-redux'
-import { setoffModelData } from '../../counterSlice'
 
 import { toindexedDb } from '../../utility/predictUtili'
 import { getAllIndexedDbModelData } from '../../utility/indexdbUtili'
 
-import { setInitOffModelData } from "../../counterSlice";
+import { setoffModelData, setInitOffModelData } from "../../counterSlice";
 
 import { Database } from 'tabler-icons-react';
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+
 import { useT } from 'talkr';
 const MySwalDel = withReactContent(Swal)
 
-function SaveModelBtn({ myModel, shortTitle }:{ myModel:any, shortTitle:string }){
+function SaveModelBtn({ myModel, shortTitle }:{ myModel:tf.LayersModel | tf.GraphModel<string | tf.io.IOHandler>, shortTitle:string }){
     const { T } = useT();
     const dispatch = useDispatch();
 

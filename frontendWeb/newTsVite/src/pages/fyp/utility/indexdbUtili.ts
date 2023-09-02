@@ -7,7 +7,7 @@ async function checkDbExist(){
 
 async function checkModelExist(modelName:string):Promise<boolean>{
 
-    return new Promise(async (rec,rej) => {
+    return new Promise(async (rec) => {
         
         // check if db exist
         if(!(await checkDbExist())){
@@ -56,7 +56,7 @@ async function getAllIndexedDbModelData(){
 
 async function deleteIndexedDb(modelName:string){
 
-    return new Promise(async (rec,rej) => {
+    return new Promise(async (rec) => {
         // check if db exist
         if(!(await checkDbExist())){
             rec(false);

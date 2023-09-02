@@ -16,7 +16,7 @@ import { useT } from "talkr";
     
 function TopIntroComp(){
     const { T } = useT();
-    const { reward, isAnimating } = useReward('rewardIdtoLeafers', 'emoji',{
+    const { reward } = useReward('rewardIdtoLeafers', 'emoji',{
         lifetime: 250,
         elementSize: 35,
         emoji: ['🤓', '😊', '🥳','🎉']

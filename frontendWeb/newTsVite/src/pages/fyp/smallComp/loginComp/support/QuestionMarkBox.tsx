@@ -4,7 +4,7 @@ import { QuestionMark } from 'tabler-icons-react';
 import { useReward } from 'react-rewards';
 
 function QuestionMarkBox() {
-    const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+    const { colorScheme } = useMantineColorScheme();
     const dark = colorScheme === 'dark';
 
     const [opened, setOpened] = useState(false);

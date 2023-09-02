@@ -1,10 +1,9 @@
-import firebase from 'firebase/compat/app';
-
-import { Drawer, UnstyledButton, Text, Group, Burger, Avatar, Space } from '@mantine/core';
-import { openSpotlight } from '@mantine/spotlight';
-
 import { useEffect, useState } from 'react';
 import { useNavigate, Outlet } from "react-router-dom";
+import firebase from 'firebase/compat/app';
+
+import { openSpotlight } from '@mantine/spotlight';
+import { Drawer, UnstyledButton, Text, Group, Burger, Avatar, Space } from '@mantine/core';
 
 import { userdataCheck, addCollectionsTwoLayer } from '../services/firebaseUse'
 
@@ -12,17 +11,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setUserData, setUserSetting } from '../counterSlice'
 
 import { Search } from 'tabler-icons-react';
-import { FaCog, FaHistory, FaDatabase, FaBong } from 'react-icons/fa'; //FaGhost
 import { FiLogOut } from 'react-icons/fi';
+import { FaCog, FaHistory, FaDatabase, FaBong } from 'react-icons/fa'; //FaGhost
 
 import LogoutBtn from "./LogoutBtn"
 import ThemeToggleBtn from './grandComp/ThemeToggleBtn';
 import SpotlightLayout from './grandComp/SpotlightLayout';
+import ToggleLanguageBtn from './loginComp/support/ToggleLanguageBtn';
+
+import { RootState } from '../store';
+import { useT } from 'talkr';
 
 import '../cssFile/navTopcss.css';
-import { RootState } from '../store';
-import ToggleLanguageBtn from './loginComp/support/ToggleLanguageBtn';
-import { useT } from 'talkr';
 
 function NavTop(){
     const { T } = useT();
@@ -44,8 +44,8 @@ function NavTop(){
     ]
 
     const finalArr = navArray
-    .filter( v => !isGuest ? v.showsAfterLogin : true)
-    .filter( v => !v.requireLoginShow || (v.requireLoginShow && !isGuest))
+        .filter( v => !isGuest ? v.showsAfterLogin : true)
+        .filter( v => !v.requireLoginShow || (v.requireLoginShow && !isGuest))
 
     useEffect(() => {
 
@@ -82,14 +82,14 @@ function NavTop(){
                     }
 
                 }
-                else{
+                else {
 
                     if(isGuest){
                         return
                     }
 
                     navigate('/');
-                    dispatch( setUserData({}) );
+                    dispatch( setUserData({} as any) );
                 }
 
             })

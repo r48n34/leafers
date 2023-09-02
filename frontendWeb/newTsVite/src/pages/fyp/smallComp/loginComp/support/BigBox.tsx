@@ -1,8 +1,8 @@
 import { Card } from "@mantine/core"
 import { iconCheckList } from "../../../dataStorage/iconNameRef"
-import { modelDataInterface } from "../../../interface/data/modelDataInterface"
+import { ModelDataInterface } from "../../../interface/data/modelDataInterface"
 
-function BigBox({ data }: { data: modelDataInterface }) {
+function BigBox({ data }: { data: ModelDataInterface }) {
 
     if (!data) {
         return (<></>)
@@ -17,7 +17,7 @@ function BigBox({ data }: { data: modelDataInterface }) {
                 <h5><b>{(iconCheckList as any)[data.iconName]}</b></h5>
                 <h5><b>{data.modelSubtitle}</b></h5>
                 <h5><b>List:</b></h5>
-                {[...Array(5)].map(x => Math.floor(Math.random() * data.labels.length)).map(v => (<h5 key={data.labels[v] + "@labels"} style={{ fontSize: "14px" }}> {data.labels[v]} </h5>))}
+                {[...Array(5)].map(_ => Math.floor(Math.random() * data.labels.length)).map(v => (<h5 key={data.labels[v] + "@labels"} style={{ fontSize: "14px" }}> {data.labels[v]} </h5>))}
                 <h5 style={{ fontSize: "14px" }}> and more... </h5>
             </div>
         </Card>

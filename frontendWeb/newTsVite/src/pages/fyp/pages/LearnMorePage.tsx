@@ -1,7 +1,7 @@
 // import FlowCharComp from "../smallComp/LearnMorePageComp/flowCharComp"
 import TopNavBar from "../smallComp/loginComp/TopNavBar"
 import { Parallax } from 'react-scroll-parallax';
-import { Grid, Container, Card, Skeleton  } from "@mantine/core";
+import { Container, Card  } from "@mantine/core";
 
 import { ImgComparisonSlider } from '@img-comparison-slider/react';
 
@@ -97,7 +97,7 @@ function LearnMorePage(){
             </Parallax>
 
 
-            {Array(30).fill(0).map( v => <br/>)}
+            {Array(30).fill(0).map( _ => <br/>)}
 
             <div>
             <Card shadow="sm">
@@ -159,7 +159,7 @@ function LearnMorePage(){
 
             </Grid> */}
 
-            {Array(80).fill(0).map( v => <br/>)}
+            {Array(80).fill(0).map( _ => <br/>)}
 
             {/* <FlowCharComp/> */}
         </Container>

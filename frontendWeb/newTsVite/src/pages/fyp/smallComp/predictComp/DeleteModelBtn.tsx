@@ -1,13 +1,14 @@
 import { Button } from '@mantine/core';
 import { useDispatch } from 'react-redux'
-import { setoffModelData } from '../../counterSlice'
 
+import { setoffModelData, setInitOffModelData } from '../../counterSlice'
 import { deleteIndexedDb, getAllIndexedDbModelData } from '../../utility/indexdbUtili'
 
-import { setInitOffModelData } from "../../counterSlice";
 import { DatabaseOff } from 'tabler-icons-react';
+
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+
 import { useT } from 'talkr';
 const MySwalDel = withReactContent(Swal)
 

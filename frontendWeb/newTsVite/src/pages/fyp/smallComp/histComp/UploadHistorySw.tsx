@@ -13,21 +13,24 @@ function UploadHistorySw(){
     const userSetting = useSelector( (state:RootState) => state.counter.userSetting);
     const dispatch = useDispatch();
 
-    async function updateSwitchAndDb(event:any){
+    async function updateSwitchAndDb(event:React.ChangeEvent<HTMLInputElement>){
         const isOn = event.currentTarget.checked
 
-        await updateSpecificUserSetting( userData.uid, {uploadHist: isOn});
+        await updateSpecificUserSetting( userData.uid, { uploadHist: isOn });
 
         showNotification({
             title: T("Updatesuccess"),
             message: T("Updatesuccess") as string + T(isOn ? "On" : "Off") + "now.",
         })
-        dispatch( updateUserSettingUploadHist(isOn) );
 
+        dispatch( updateUserSettingUploadHist(isOn) );
     }
 
     return(
-        <Switch checked={userSetting.uploadHist ? userSetting.uploadHist : false} onChange={ (event) => updateSwitchAndDb(event) } />
+        <Switch 
+            checked={userSetting.uploadHist ? userSetting.uploadHist : false}
+            onChange={ (event) => updateSwitchAndDb(event) }
+        />
     );
 }
 

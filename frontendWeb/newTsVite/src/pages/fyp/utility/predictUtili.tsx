@@ -1,8 +1,8 @@
 import * as tf from '@tensorflow/tfjs';
-//<input type="file" name="avatar" accept="image/png, image/jpeg" onInput={(e) => setThisPic(e.target.files[0])} ></input>
+import { funcObj, serverData } from '../services/apiUse';
 
 async function createModel(
-    url:string, 
+    url: string, 
     method: "LayersModel" | "GraphModel",
     setLoadingProgress?: Function
 ):Promise<tf.LayersModel | tf.GraphModel<string | tf.io.IOHandler>>{ // fit model in hook myModel
@@ -23,17 +23,17 @@ async function createModel(
 }
 
 // for img elements to display the images fron=m useState
-function createObj(img:any){
+function createObj(img: Blob | MediaSource){
     return URL.createObjectURL(img);
 }
 
-function timer(t:number){
+function timer(t: number){
     return new Promise( (rec) => {
       setTimeout(rec, t)
     })
 }
 
-async function toindexedDb(model:any, modelName:string){
+async function toindexedDb(model: tf.LayersModel | tf.GraphModel<string | tf.io.IOHandler>, modelName:string): Promise<boolean>{
     try{
         const saveResult = await model.save("indexeddb://" + modelName);
         console.log(saveResult);
@@ -47,12 +47,12 @@ async function toindexedDb(model:any, modelName:string){
 }
 
 async function predictResult(
-    myModel:any, //tf.LayersModel | tf.GraphModel<string | tf.io.IOHandler>
-    imgInputId:string,
-    imgSize:number,
-    subNum:number,
-    divNum:number,
-    labelArr:any[]
+    myModel: any, //tf.LayersModel | tf.GraphModel<string | tf.io.IOHandler>
+    imgInputId: string,
+    imgSize: number,
+    subNum: number,
+    divNum: number,
+    labelArr: any[]
 ){
     let obj;
 
@@ -102,19 +102,35 @@ async function predictResult(
 
 }
 
+interface RankObj {
+    label: string
+    confident: number 
+}
+
+export interface PredictedObject {
+    "top1": RankObj,
+    "top2": RankObj,
+    "top3": RankObj,
+    "top4": RankObj,
+    "top5": RankObj,
+    "status": boolean;
+    "timeTaken": string
+    "timeTakenOffset": string
+}
+
 async function predictResultTopFive(
-    myModel:any, //tf.LayersModel | tf.GraphModel<string | tf.io.IOHandler>,
+    myModel: tf.GraphModel<string | tf.io.IOHandler>, // tf.LayersModel | tf.GraphModel<string | tf.io.IOHandler>,
     imgInputId:string,
     imgSize:number,
     subNum:number,
     divNum:number,
     labelArr:any[]
-){
+): Promise<PredictedObject>{
     let obj = {} as any;
 
     try{
 
-        const imageRef:any = document.getElementById(imgInputId); // That image elements
+        const imageRef = document.getElementById(imgInputId) as HTMLImageElement; // That image elements
         
         let waitTime = 1300 // Normal wait time
         await timer(waitTime);
@@ -128,17 +144,17 @@ async function predictResultTopFive(
             .sub(tf.scalar(subNum))  
             .expandDims();
         
-        const p = await myModel.predict(imgPre).data();
+        const p = await (myModel.predict(imgPre) as tf.Tensor<tf.Rank>).data();
 
         // tfjs default value
         const {values, indices} = tf.topk(p, 5);  
 
-        const top5ArrPoss = Array.from( values.dataSync() )
+        const top5ArrPoss:number[] = Array.from( values.dataSync() )
         const top5Arr:number[] = Array.from( indices.dataSync() )
 
-        let topFiveArr = []
+        let topFiveArr:RankObj[] = []
         for(let op = 0; op < 5; op ++){
-            topFiveArr.push( {label: labelArr[ top5Arr[op] ], confident: top5ArrPoss[op]  } )
+            topFiveArr.push( { label: labelArr[ top5Arr[op] ], confident: top5ArrPoss[op] } )
         }
 
         topFiveArr.forEach( (v,i) => obj[`top${i + 1}`] = v );
@@ -173,10 +189,11 @@ async function predictResultTopFive(
 
 }
 
-async function fetchserver(img:any){
-    const serverUrl = "https://fypflowerpredict.azurewebsites.net/api/flowerPredictBlob?code=v6rrLrGMnDHrWvqgZHdfa0wbOZHg1duSwLKwBDUF02VA/6RuMWcnLw=="
+async function fetchserver(img: Blob){
+    const serverUrl = `${serverData.serverUrl}${funcObj[1].name}?code=${serverData.serverCode}`
+    console.log(serverUrl);
 
-    return new Promise( (rec, rej) => {
+    return new Promise( (rec) => {
 
         try{
     
@@ -191,7 +208,7 @@ async function fetchserver(img:any){
                 console.log(arrayBuffer);
                 console.log(array);
     
-                let res = await fetch(serverUrl,{
+                let res = await fetch(serverUrl ,{
                     method: 'POST',
                     headers: { 'content-type': 'application/json' },
                     body: JSON.stringify( array )

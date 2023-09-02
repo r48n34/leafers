@@ -15,14 +15,29 @@ import { LabelSearchModelFetch } from "../services/apiUse";
 import full from '../img/full.jpg';
 import ModelResultBox from '../smallComp/predictComp/ModelResultBox'
 
-function ApiUsePredictPage():any{
+type PredictedResult =
+    | { status: false }
+    | { 
+        status: true
+        top1: { label: string, confident: string | number },
+        top2: { label: string, confident: string | number },
+        top3: { label: string, confident: string | number },
+        top4: { label: string, confident: string | number },
+        top5: { label: string, confident: string | number },
+        object : string,
+        confident : string,
+        timeTaken: string
+        timeTakenOffset: string, 
+}
+
+function ApiUsePredictPage(){
 
     const navigate = useNavigate();
 
-    const [preview, setPreview] = useState<any>(full); // img path
-    const [modelLables, setModelLables] = useState<string[]>([]); // labels state
-    const [loadingPredict, setloadingPredict] = useState<boolean>(false); // is model predicting
-    const [message, setMessage] = useState<any>({ status:true }); // message container
+    const [ preview, setPreview ] = useState<string>(full); // img path
+    const [ modelLables, setModelLables ] = useState<string[]>([]); // labels state
+    const [ loadingPredict, setloadingPredict ] = useState<boolean>(false); // is model predicting
+    const [ message, setMessage ] = useState<PredictedResult>({ status: false }); // message container
 
     useEffect(() => {
         
@@ -74,6 +89,7 @@ function ApiUsePredictPage():any{
         if(!file){
             return
         }
+
         setloadingPredict(true);
         setPreview( URL.createObjectURL(file) );
 
@@ -98,8 +114,13 @@ function ApiUsePredictPage():any{
 
             <div style={{textAlign:"center"}}>
 
-                <h5 style={{textAlign: "center"}}><b>Beta version</b></h5>
-                <h1 style={{textAlign: "center"}}><b>Input your pictures (Flowers 400 online)</b></h1>
+                <h5 style={{textAlign: "center"}}>
+                    <b>Beta version</b>
+                </h5>
+
+                <h1 style={{textAlign: "center"}}>
+                    <b>Input your pictures (Flowers 400 online)</b>
+                </h1>
 
                 <Grid className="mt-4">
 
@@ -117,9 +138,11 @@ function ApiUsePredictPage():any{
                     <Grid.Col md={12} lg={6}>           
                     <Card shadow="lg" className="mb-2" style={{ borderRadius:"20px", textAlign:"center"}}>     
                         
-
                         { loadingPredict && <div><Loader color="gray"/><h4>May take times for first time.</h4></div>}               
-                        { message.status ? <div><ModelResultBox message={message} isLoading={loadingPredict} /></div> : <h1>Invalid input, please try again.</h1>}
+                        { message.status 
+                            ? <div><ModelResultBox message={message} isLoading={loadingPredict} /></div> 
+                            : <h1>Invalid input, please try again.</h1>
+                        }
                         
                         <Space h="lg"/>
                         <Group position='right'>
@@ -140,5 +163,6 @@ function ApiUsePredictPage():any{
         </>
     );
 }
+
 
 export default ApiUsePredictPage
