@@ -1,4 +1,4 @@
-# Leafers
+# 🍃 Leafers
 A final year project of using deep learning CNN models for predicting Hong Kong plants images.    
 
 <img src="assert/postreFirstPage.png" width="600" alt="project_logo"/>   
@@ -7,39 +7,50 @@ A final year project of using deep learning CNN models for predicting Hong Kong 
 
 <a href='https://play.google.com/store/apps/details?id=leafers.apk&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="200" /></a>  
 
-# Dataset
-Both dataset share the same attributes:  
-**Images number**: 86880  
+## 📊 Dataset
 
-### flower400
-Dataset that contains 400 types of flowers occur in Hong Kong.    
-Url: https://www.kaggle.com/r48n34/flower400   
+### 🌸 flower400
+Dataset that contains 400 types of flowers occur in Hong Kong. (86880 images)        
+https://www.kaggle.com/r48n34/flower400   
  
-### flower258
-Dataset that contains 258 types of flowers occur in Hong Kong, group by genus.   
-Url: https://www.kaggle.com/r48n34/flower258  
+### 🌳 flower258
+Dataset that contains 258 types of flowers occur in Hong Kong, group by genus. (86880 images)    
+https://www.kaggle.com/r48n34/flower258  
 
-### flower yolov5  
+
+### 🏞 flower yolov5  
 Using flower400 images, selecting few of representative for labeling with boxes.  
-Url: https://www.kaggle.com/r48n34/flowers-yolov5
+https://www.kaggle.com/r48n34/flowers-yolov5
 
-# Training params
+## 💪 Training params
 
-### Images classifications 
+### 📸 Images classifications 
 
-**Model choosing**: Tensorflow 2.8 EfficientNetV2 / EfficientNet / MobienetV3 series    
-**Data spliting**: 80% Training & 20% Validations    
+**👠 Model choosing**:    
+`Tensorflow 2.8 EfficientNetV2` & `EfficientNet` & `MobienetV3 series`    
 
-**Max scale mtehod**: Scale up all classes that below a number of the max images classes  
-**Max scale Flower400**: Flower400: 276550 Training & 17369 Validations    
-**Max scale Flower258**: Flower400: 504598 Training & 17369 Validations    
+**🔪 Data spliting**:    
+`80% Training` & `20% Validations`    
 
-### Object detections  
+**📈 Max scale mtehod**:  
+Scale up all classes that below a number of the max images classes  
 
-**Model choose** : yolov5 small  
-**Data** : 1067 training & 100 validations  
+**📈 Max scale Flower400 / Flower258**:  
+Training    - 276550 images   
+Validations - 7369 images  
 
-### Environments
+
+
+### 🔍 Object detections  
+
+**👠 Model choose**:  
+yolov5 small 
+
+**📈 Data**:  
+Training    - 1067 images     
+Validations - 100 images  
+
+### 🌲 Environments
 
 | Specs \ Env | Colab ENV                      | Local ENV                                |
 |-------------|--------------------------------|------------------------------------------|
@@ -50,9 +61,9 @@ Url: https://www.kaggle.com/r48n34/flowers-yolov5
 | TF version  | 2.7                            | 2.8                                      |
 
 
-# Training result
+## 💪 Training result
 
-### flower258
+### 🌳 flower258
 | Code  | Aug                    | Method                       | Scale          | Train Top1 | diff  | Predict Top1 | Predict Top5 |
 | ----- | ---------------------- | ---------------------------- | -------------- | ---------- | ----- | ------------ | ------------ |
 | 10    | max scale + RandAug    | Official effNetv2b1          | 240, \[0,255\] | 8436       | \-96  | 8340         | 9495         |
@@ -63,7 +74,7 @@ Url: https://www.kaggle.com/r48n34/flowers-yolov5
 | 14    | max scale + RandAug    | Official effNetvb2           | 260, \[0,255\] | 8313       | \-175 | 8138         | 9442         |
 | 15    | max scale + RandAug    | Official effNetvb0           | 224, \[0,255\] | 8752       | \-90  | 8662         | 9583         |  
 
-### flower400
+### 🌸 flower400
 | Code  | Aug                    | Method                       | Scale          | Train Top1 | diff  | Predict Top1 | Predict Top5 |
 | ----- | ---------------------- | ---------------------------- | -------------- | ---------- | ----- | ------------ | ------------ |
 | 13    | max scale + RandAug    | Official effNetv2b3          | 300, \[0,255\] | 7323       | \-100 | 7223         | 9279         |
@@ -75,28 +86,35 @@ Url: https://www.kaggle.com/r48n34/flowers-yolov5
 | [21](model/flower400Code021model)    | max scale + RandAug    | Official effNetv2b1          | 240, \[0,255\] | 7417       | \-111 | 7306         | 9330         |
 | [22](model/flower400Code022model)    | max scale + RandAug    | 13,16,21 stacking            | 300, \[0,255\] | 7726       | +5    | 7731         | 9475         |
 
-### YoloV5 Best.pt
+### 🏞 YoloV5 Best.pt
 
 | train/box_loss | train/obj_loss | precision | recall | mAP_0.5 | mAP_0.5:0.95 | val/box_loss | val/obj_loss |
 |----------------|----------------|-----------|--------|---------|--------------|--------------|--------------|
 | 0.023474       | 0.023782       | 0.9516    | 0.77108| 0.87833 | 0.63541      | 0.031121     | 0.012252     |
 
-# Applications development
-**Website** : [React with Vite (Typescript, Firebase, tfjs, Mantine, redux RTK...)](frontendWeb/newTsVite)    
-**Apps (Android)** : [React native with expo (tfjs)](nativeApps)  
-**Serverless API deploy** : [Azure functions](api)    
-**Frontend deploy**: [(Old) Azure static web app => (New) Vercel](https://vercel.com/)  
+# 💻 Applications development
+**🌐 Website** :  
+[React with Vite (Typescript, Firebase, tfjs, Mantine, redux RTK...)](frontendWeb/newTsVite)   
 
-# Special Thanks  
+**🤖 Apps (Android)** :  
+[React native with expo (tfjs)](nativeApps)  
 
-### Data References: 
+**💻 Serverless API deploy** :  
+[Azure functions](api)    
+
+**📦 Frontend deploy**:  
+[(Old) Azure static web app => (New) Vercel](https://vercel.com/)  
+
+# 👍 Special Thanks  
+
+### 📷 Media:  
+- [Startupbeat](http://startupbeat.hkej.com/?p=122323)   
+
+### 📊 Data References: 
 - [Hong Kong Herbarium](https://herbarium.gov.hk/en/about-us/news/whats-new/index-id-5.html)  
 - [HKCWW](http://hkcww.org/hkplant/index.htm)    
 - [Produce Green HK](http://www.producegreen.org.hk/hkwildflower/main_04_01.htm)    
 
-### Protocol References:
+### 📑 Protocol References:
 - [Smart Flower Atlas](https://plant-tw.github.io/)      
-- [Pl@ntNet](https://identify.plantnet.org/zh)    
-
-### Media:  
-- [startupbeat](http://startupbeat.hkej.com/?p=122323)         
+- [Pl@ntNet](https://identify.plantnet.org/zh)     
